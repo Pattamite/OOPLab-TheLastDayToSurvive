@@ -13,7 +13,7 @@ public class LastDayGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture playerTexture;
 	Sprite player;
-	float playerSpeed = 2f;
+	float playerSpeed = 160f;
 	float sqrt2 = 1.41421356237f;
 	
 	@Override
@@ -60,12 +60,12 @@ public class LastDayGame extends ApplicationAdapter {
 		
 		if(isHoriMove && isVertiMove)
 		{
-			player.translate(horiSpeed * playerSpeed / sqrt2, vertiSpeed * playerSpeed / sqrt2);
+			player.translate(horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime(), vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime());
 		}
 		
 		else if(isHoriMove || isVertiMove)
 		{
-			player.translate(horiSpeed * playerSpeed, vertiSpeed * playerSpeed);
+			player.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime(), vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
 		}
 		
 		

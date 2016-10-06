@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "The Last Day to Suvive";
-		config.width = 800;
-		config.height = 480;
+		config.width = 1600;
+		config.height = 900;
 		new LwjglApplication(new LastDayGame(), config);
 	}
 }
