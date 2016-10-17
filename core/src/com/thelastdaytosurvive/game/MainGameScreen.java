@@ -10,15 +10,13 @@ public class MainGameScreen extends ScreenAdapter {
 	private LastDayGame lastDayGame;
 	public Player player;
 	
-	public MainGameScreen(LastDayGame lastDayGame)
-	{
+	public MainGameScreen(LastDayGame lastDayGame){
 		this.lastDayGame = lastDayGame;
 		player = new Player();
 	}
 	
 	@Override
-	public void render(float delta)
-	{
+	public void render(float delta){
 		player.Update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
