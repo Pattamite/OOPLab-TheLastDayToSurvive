@@ -8,21 +8,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MainGameScreen extends ScreenAdapter {
 	
 	private LastDayGame lastDayGame;
-	public Player player;
+	private MainGameWorld mainGameWorld;
+	private MainGameWorldRenderer mainGameWorldRenderer;
+	public SpriteBatch batch;
 	
 	public MainGameScreen(LastDayGame lastDayGame){
 		this.lastDayGame = lastDayGame;
-		player = new Player();
+		mainGameWorld = new MainGameWorld(this);
+		mainGameWorldRenderer = new MainGameWorldRenderer(this, mainGameWorld);
+		
+		batch = lastDayGame.batch;
 	}
 	
 	@Override
 	public void render(float delta){
-		player.Update();
+		
+		mainGameWorld.update(delta);
+		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		SpriteBatch batch = lastDayGame.batch;
 		batch.begin();
-		player.playerSprite.draw(batch);
+		mainGameWorldRenderer.draw();
 		batch.end();
 	}
 }

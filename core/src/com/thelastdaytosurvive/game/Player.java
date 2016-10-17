@@ -18,12 +18,12 @@ public class Player {
 		playerSprite.setPosition(Gdx.graphics.getWidth()/2 - playerSprite.getWidth()/2, Gdx.graphics.getHeight()/2 - playerSprite.getHeight()/2);
 	}
 	
-	public void Update(){
-		UpdatePosition();
-		UpdateRotation();
+	public void update(){
+		updatePosition();
+		updateRotation();
 	}
 	
-	private void UpdatePosition(){
+	private void updatePosition(){
 		float vertiSpeed = 0f;
 		float horiSpeed = 0f;
 		boolean isVertiMove = false;
@@ -56,7 +56,7 @@ public class Player {
 		}
 	}
 	
-	private void UpdateRotation(){
+	private void updateRotation(){
 		float playerPosiX = playerSprite.getX() + playerSprite.getWidth() / 2;
 		float playerPosiY = ( (playerSprite.getY() + playerSprite.getHeight() / 2) - Gdx.graphics.getHeight() / 2) * (-1f) + Gdx.graphics.getHeight() / 2;
 		float playerRotate = playerSprite.getRotation() - 90f;
@@ -66,4 +66,5 @@ public class Player {
 		
 		playerSprite.rotate(rotateTarget - playerRotate);
 	}
+	
 }
