@@ -4,23 +4,59 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player {
 	
-	private Texture playerTexture;
+	public static int WEAPON_PRIMARY = 0;
+	public static int WEAPON_SECONDARY = 1;
+	
+	private Texture playerSheet;
+	private TextureRegion[] playerFrames;
+	private int frameCols = 2;
+	private int frameRows = 1;
+	
+	
 	public Sprite playerSprite;
 	public float playerSpeed = 160f;
 	private float sqrt2 = 1.41421356237f;
 	
+	private int currentWeapon;
+	private int selectedWeapon;
+	
+	private int counter1;
+	private int counter2;
+	private int counter3;
+	
 	public Player(){
-		playerTexture = new Texture("Player/Player.png");
-		playerSprite = new Sprite(playerTexture);
-		playerSprite.setPosition(Gdx.graphics.getWidth()/2 - playerSprite.getWidth()/2, Gdx.graphics.getHeight()/2 - playerSprite.getHeight()/2);
+		setTextureRegion();
+		setUpSprite();
 	}
 	
 	public void update(){
 		updatePosition();
 		updateRotation();
+		updateWeapon();
+	}
+	
+	private void setTextureRegion(){
+		playerSheet = new Texture("Player/Player.png");
+		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols, playerSheet.getHeight()/frameRows);
+		playerFrames = new TextureRegion[frameRows * frameCols];
+		counter1 = 0;
+		for(counter2 = 0; counter2 < frameRows; counter2++){
+			for(counter3 = 0; counter3 < frameCols; counter3++){
+				playerFrames[counter1] = tmp[counter2][counter3];
+				counter1++;
+			}
+		}
+		
+	}
+	
+	private void setUpSprite(){
+		currentWeapon = WEAPON_PRIMARY;
+		playerSprite = new Sprite(playerFrames[currentWeapon]);
+		playerSprite.setPosition(Gdx.graphics.getWidth()/2 - playerSprite.getWidth()/2, Gdx.graphics.getHeight()/2 - playerSprite.getHeight()/2);
 	}
 	
 	private void updatePosition(){
@@ -67,4 +103,19 @@ public class Player {
 		playerSprite.rotate(rotateTarget - playerRotate);
 	}
 	
+	private void updateWeapon(){
+		selectedWeapon = -1;
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			selectedWeapon = WEAPON_PRIMARY;
+		}
+		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			selectedWeapon = WEAPON_SECONDARY;
+		}
+		
+		if(selectedWeapon != -1 && selectedWeapon != currentWeapon){
+			currentWeapon = selectedWeapon;
+			playerSprite.setRegion(playerFrames[currentWeapon]);
+		}
+	}
 }
