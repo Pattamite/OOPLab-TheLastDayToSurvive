@@ -1,5 +1,7 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class MainGameWorldRenderer {
 	private MainGameScreen mainGameScreen;
 	private MainGameWorld mainGameWorld;
@@ -9,7 +11,8 @@ public class MainGameWorldRenderer {
 		this.mainGameWorld = mainGameWorld;
 	}
 	
-	public void draw(){
+	public void draw(float delta, SpriteBatch batch){
 		mainGameWorld.player.playerSprite.draw(mainGameScreen.batch);
+		mainGameWorld.bullet.draw(delta, batch);
 	}
 }

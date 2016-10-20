@@ -29,7 +29,7 @@ public class MainGameScreen extends ScreenAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		mainGameWorldRenderer.draw();
+		mainGameWorldRenderer.draw(delta, batch);
 		batch.end();
 	}
 }
