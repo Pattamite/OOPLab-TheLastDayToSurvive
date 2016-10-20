@@ -13,13 +13,17 @@ public class Bullet {
 	
 	private Texture bulletTexture[];
 	
-	private float speedType[] = {10, 5};
+	private float speedType[] = {1000, 1000};
 	private float sizeType[] = {12, 12};
 	
 	public Bullet(){
+		bulletInfoArray = new Array<BulletInfo>();
+		bulletRectangleArray = new Array<Rectangle>();
+		
 		bulletTexture = new Texture[2];
 		bulletTexture[0] = new Texture("Bullet/laserBlue03.png");
 		bulletTexture[1] = new Texture("Bullet/laserRed03.png");
+		
 	}
 	
 	public void newBullet(int type, float xPosition, float yPosition, float rotation){
@@ -27,9 +31,12 @@ public class Bullet {
 		setUpRectangle(type, xPosition, yPosition);
 	}
 	
-	public void draw(float delta, SpriteBatch batch){
+	public void update(float delta){
 		updatePosition(delta);
 		checkCondition();
+	}
+	
+	public void draw(SpriteBatch batch){
 		drawBullet(batch);
 	}
 	
@@ -56,6 +63,7 @@ public class Bullet {
 	}
 	
 	private void updatePosition(float delta){
+		//System.out.println("" + bulletInfoArray.size);
 		Iterator<BulletInfo> iterInfo = bulletInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = bulletRectangleArray.iterator();
 		while(iterInfo.hasNext() && iterRectangle.hasNext()){
@@ -86,7 +94,7 @@ public class Bullet {
 	}
 	
 	private boolean isOutfBound(BulletInfo info){
-		return (info.xPostion < 0 || info.xPostion > 1600 || info.yPostion < 0 || info.xPostion > 900);
+		return (info.xPostion < 0 || info.xPostion > 1600 || info.yPostion < 0 || info.yPostion > 900);
 	}
 	
 	private void drawBullet(SpriteBatch batch){

@@ -12,7 +12,7 @@ public class MainGameWorldRenderer {
 	}
 	
 	public void draw(float delta, SpriteBatch batch){
-		mainGameWorld.player.playerSprite.draw(mainGameScreen.batch);
-		mainGameWorld.bullet.draw(delta, batch);
+		mainGameWorld.player.playerSprite.draw(batch);
+		mainGameWorld.bullet.draw(batch);
 	}
 }

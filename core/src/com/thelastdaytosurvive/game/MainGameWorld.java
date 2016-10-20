@@ -11,11 +11,12 @@ public class MainGameWorld {
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.batch;
-		player = new Player();
+		player = new Player(this);
 		bullet = new Bullet();
 	}
 	
 	public void update(float delta){
 		player.update();
+		bullet.update(delta);
 	}
 }

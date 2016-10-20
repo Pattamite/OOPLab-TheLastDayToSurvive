@@ -11,6 +11,7 @@ public class Player {
 	public static int WEAPON_PRIMARY = 0;
 	public static int WEAPON_SECONDARY = 1;
 	
+	private MainGameWorld mainGameWorld;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
 	private int frameCols = 2;
@@ -28,7 +29,9 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(){
+	public Player(MainGameWorld mainGameWorld){
+		
+		this.mainGameWorld = mainGameWorld;
 		setTextureRegion();
 		setUpSprite();
 	}
@@ -37,6 +40,7 @@ public class Player {
 		updatePosition();
 		updateRotation();
 		updateWeapon();
+		updateAttack();
 	}
 	
 	private void setTextureRegion(){
@@ -116,6 +120,16 @@ public class Player {
 		if(selectedWeapon != -1 && selectedWeapon != currentWeapon){
 			currentWeapon = selectedWeapon;
 			playerSprite.setRegion(playerFrames[currentWeapon]);
+		}
+	}
+	
+	private void updateAttack(){
+		
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+			float x = (float) (playerSprite.getX() + 27 + 30 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI));
+			float y = (float) (playerSprite.getY() + 27 + 30 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI));
+			
+			mainGameWorld.bullet.newBullet(currentWeapon, x, y, playerSprite.getRotation() + 90);
 		}
 	}
 }
