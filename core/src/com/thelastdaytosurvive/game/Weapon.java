@@ -60,4 +60,19 @@ public class Weapon {
 	public void grabFullMag(){
 		
 	}
+	
+	public int getAmmoCount(int type){
+		switch(type){
+			case ASSAULT_RIFLE : return assaultRifle.currentAmmo; 
+			case NINEMM_PISTOL : return nineMmPistol.currentAmmo; 
+			default : return -1;
+		}
+	}
+	
+	public int getPocketCount(int type){
+		switch(type){
+			case ASSAULT_RIFLE : return assaultRifle.pocketAmmo; 
+			default : return -1;
+		}
+	}
 }

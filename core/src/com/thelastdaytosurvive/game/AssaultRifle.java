@@ -39,7 +39,7 @@ public class AssaultRifle {
 	}
 	
 	public void reload(){
-		if(!isReloading && (pocketAmmo > 0)){
+		if(!isReloading && (pocketAmmo > 0) && (currentAmmo != (MAG_CAPACITY + 1))){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
 		}

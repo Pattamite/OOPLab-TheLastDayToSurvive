@@ -42,7 +42,7 @@ public class NineMmPistol {
 	}
 	
 	public void reload(){
-		if(!isReloading){
+		if(!isReloading && (currentAmmo != (MAG_CAPACITY + 1))){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
 		}

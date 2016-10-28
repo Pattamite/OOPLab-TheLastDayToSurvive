@@ -45,6 +45,14 @@ public class Player {
 		updateAttack();
 	}
 	
+	public int getAmmoCount(){
+		return weapon.getAmmoCount(currentWeapon);
+	}
+	
+	public int getPocketCount(){
+		return weapon.getPocketCount(currentWeapon);
+	}
+	
 	private void setTextureRegion(){
 		playerSheet = new Texture("Player/Player.png");
 		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols, playerSheet.getHeight()/frameRows);
