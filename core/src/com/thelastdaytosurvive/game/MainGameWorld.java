@@ -7,16 +7,21 @@ public class MainGameWorld {
 	public SpriteBatch batch;
 	public Player player;
 	public Bullet bullet;
+	public Weapon weapon;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.batch;
-		player = new Player(this);
+		
 		bullet = new Bullet();
+		weapon = new Weapon(bullet);
+		player = new Player(this, weapon);
 	}
 	
 	public void update(float delta){
 		player.update();
 		bullet.update(delta);
+		weapon.update(Player.WEAPON_PRIMARY);
+		weapon.update(Player.WEAPON_SECONDARY);
 	}
 }

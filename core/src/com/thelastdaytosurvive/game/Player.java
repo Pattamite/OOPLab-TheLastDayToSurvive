@@ -12,6 +12,7 @@ public class Player {
 	public static int WEAPON_SECONDARY = 1;
 	
 	private MainGameWorld mainGameWorld;
+	private Weapon weapon;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
 	private int frameCols = 2;
@@ -29,9 +30,10 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(MainGameWorld mainGameWorld){
+	public Player(MainGameWorld mainGameWorld, Weapon weapon){
 		
 		this.mainGameWorld = mainGameWorld;
+		this.weapon = weapon;
 		setTextureRegion();
 		setUpSprite();
 	}
@@ -129,7 +131,14 @@ public class Player {
 			float x = (float) (playerSprite.getX() + 27 + 30 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI));
 			float y = (float) (playerSprite.getY() + 27 + 30 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI));
 			
-			mainGameWorld.bullet.newBullet(currentWeapon, x, y, playerSprite.getRotation() + 90);
+			weapon.pullTrigger(currentWeapon, x, y, playerSprite.getRotation() + 90);
+		}
+		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+			weapon.releaseTrigger(currentWeapon);
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.R)){
+			weapon.reload(currentWeapon);
 		}
 	}
 }
