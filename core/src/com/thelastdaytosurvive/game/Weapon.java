@@ -46,7 +46,11 @@ public class Weapon {
 	}
 	
 	public void cancleReload(int type){
-		
+		switch(type){
+		case ASSAULT_RIFLE : assaultRifle.cancleReload(); break;
+		case NINEMM_PISTOL : nineMmPistol.cancleReload(); break;
+		default : break;
+	}
 	}
 	
 	public void grabOneMag(){

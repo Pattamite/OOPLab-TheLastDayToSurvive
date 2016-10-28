@@ -26,16 +26,7 @@ public class NineMmPistol {
 	}
 	
 	public void update(){
-		
-		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
-			if(currentAmmo <= 0){
-				currentAmmo = MAG_CAPACITY;
-			}
-			else{
-				currentAmmo = MAG_CAPACITY + 1;
-			}
-			isReloading = false;
-		}
+		checkReload();
 	}
 	
 	public void pullTrigger(float x, float y, float rotation){
@@ -54,6 +45,22 @@ public class NineMmPistol {
 		if(!isReloading){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
+		}
+	}
+	
+	public void cancleReload(){
+		isReloading = false;
+	}
+	
+	private void checkReload(){
+		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
+			if(currentAmmo <= 0){
+				currentAmmo = MAG_CAPACITY;
+			}
+			else{
+				currentAmmo = MAG_CAPACITY + 1;
+			}
+			isReloading = false;
 		}
 	}
 }

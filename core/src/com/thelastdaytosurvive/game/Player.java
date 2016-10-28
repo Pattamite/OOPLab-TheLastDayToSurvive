@@ -120,6 +120,7 @@ public class Player {
 		}
 		
 		if(selectedWeapon != -1 && selectedWeapon != currentWeapon){
+			weapon.cancleReload(currentWeapon);
 			currentWeapon = selectedWeapon;
 			playerSprite.setRegion(playerFrames[currentWeapon]);
 		}

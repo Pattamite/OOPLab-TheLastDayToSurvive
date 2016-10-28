@@ -27,6 +27,29 @@ public class AssaultRifle {
 	}
 	
 	public void update(){
+		checkReload();
+	}
+	
+	public void pullTrigger(float x, float y, float rotation){
+		if(!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
+			bullet.newBullet(Weapon.ASSAULT_RIFLE, x, y, rotation);
+			currentAmmo--;
+			lastShotTime = TimeUtils.millis();
+		}
+	}
+	
+	public void reload(){
+		if(!isReloading && (pocketAmmo > 0)){
+			isReloading = true;
+			lastReloadTime = TimeUtils.millis();
+		}
+	}
+	
+	public void cancleReload(){
+		isReloading = false;
+	}
+	
+	private void checkReload(){
 		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
 			if(currentAmmo <= 0){
 				if(pocketAmmo > (MAG_CAPACITY - currentAmmo)){
@@ -49,22 +72,6 @@ public class AssaultRifle {
 				}
 			}
 			isReloading = false;
-		}
-	}
-	
-	public void pullTrigger(float x, float y, float rotation){
-		if(!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
-			bullet.newBullet(Weapon.ASSAULT_RIFLE, x, y, rotation);
-			currentAmmo--;
-			lastShotTime = TimeUtils.millis();
-		}
-	}
-	
-	
-	public void reload(){
-		if(!isReloading && (pocketAmmo > 0)){
-			isReloading = true;
-			lastReloadTime = TimeUtils.millis();
 		}
 	}
 }
