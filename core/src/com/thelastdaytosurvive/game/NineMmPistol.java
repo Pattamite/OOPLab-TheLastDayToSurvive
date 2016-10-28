@@ -52,6 +52,10 @@ public class NineMmPistol {
 		isReloading = false;
 	}
 	
+	public float reloadProgress(){
+		return (((float)(TimeUtils.millis() - lastReloadTime) / (float)RELOAD_TIME) * 100f);
+	}
+	
 	private void checkReload(){
 		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
 			if(currentAmmo <= 0){

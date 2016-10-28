@@ -75,4 +75,20 @@ public class Weapon {
 			default : return -1;
 		}
 	}
+	
+	public boolean isReloading(int type){
+		switch(type){
+			case ASSAULT_RIFLE : return assaultRifle.isReloading; 
+			case NINEMM_PISTOL : return nineMmPistol.isReloading; 
+			default : return false;
+		}
+	}
+	
+	public float reloadProgress(int type){
+		switch(type){
+			case ASSAULT_RIFLE : return assaultRifle.reloadProgress(); 
+			case NINEMM_PISTOL : return nineMmPistol.reloadProgress(); 
+			default : return 0;
+		}
+	}
 }

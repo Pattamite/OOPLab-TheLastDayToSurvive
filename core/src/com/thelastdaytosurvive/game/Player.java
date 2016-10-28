@@ -53,6 +53,14 @@ public class Player {
 		return weapon.getPocketCount(currentWeapon);
 	}
 	
+	public boolean isReloading(){
+		return weapon.isReloading(currentWeapon);
+	}
+	
+	public float reloadProgress(){
+		return weapon.reloadProgress(currentWeapon);
+	}
+	
 	private void setTextureRegion(){
 		playerSheet = new Texture("Player/Player.png");
 		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols, playerSheet.getHeight()/frameRows);
