@@ -41,7 +41,6 @@ public class MainGameHud {
 			float x = player.playerSprite.getX() - 20;
 			float y = player.playerSprite.getY() - 20;
 			float value = player.reloadProgress();
-			System.out.println("" + value);
 			
 			batch.draw(reloadBarTexture, x, y);
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
