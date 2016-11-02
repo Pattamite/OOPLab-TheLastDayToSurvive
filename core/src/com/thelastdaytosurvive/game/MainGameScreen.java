@@ -22,7 +22,7 @@ public class MainGameScreen extends ScreenAdapter {
 		batch = lastDayGame.batch;
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, MainGameWorld.GAME_X/2, MainGameWorld.GAME_Y/2);
+		camera.setToOrtho(false, MainGameWorld.MAP_X/2, MainGameWorld.MAP_Y/2);
 	}
 	
 	@Override
@@ -46,16 +46,16 @@ public class MainGameScreen extends ScreenAdapter {
 		if(x < (Gdx.graphics.getWidth() / 2)){
 			x = (Gdx.graphics.getWidth() / 2);
 		}
-		else if(x > (MainGameWorld.GAME_X - (Gdx.graphics.getWidth() / 2))){
-			x = (MainGameWorld.GAME_X - (Gdx.graphics.getWidth() / 2));
+		else if(x > (MainGameWorld.MAP_X - (Gdx.graphics.getWidth() / 2))){
+			x = (MainGameWorld.MAP_X - (Gdx.graphics.getWidth() / 2));
 		}
 		
 		float y = mainGameWorld.player.playerSprite.getY();
 		if(y < (Gdx.graphics.getHeight() / 2)){
 			y = (Gdx.graphics.getHeight() / 2);
 		}
-		else if(y > (MainGameWorld.GAME_Y - (Gdx.graphics.getHeight() / 2))){
-			y = (MainGameWorld.GAME_Y - (Gdx.graphics.getHeight() / 2));
+		else if(y > (MainGameWorld.MAP_Y - (Gdx.graphics.getHeight() / 2))){
+			y = (MainGameWorld.MAP_Y - (Gdx.graphics.getHeight() / 2));
 		}
 		
 		camera.position.set(x, y, 0);

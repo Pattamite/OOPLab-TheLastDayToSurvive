@@ -22,6 +22,11 @@ public class Player {
 	public Sprite playerSprite;
 	public float playerSpeed = 160f;
 	private float sqrt2 = 1.41421356237f;
+	private float minPositionX = 0;
+	private float maxPositionX = MainGameWorld.MAP_X - 64;
+	private float minPositionY = 0;
+	private float maxPositionY = MainGameWorld.MAP_Y - 64;
+	
 	
 	private int currentWeapon;
 	private int selectedWeapon;
@@ -112,6 +117,8 @@ public class Player {
 		else if(isHoriMove || isVertiMove){
 			playerSprite.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime(), vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
 		}
+		
+		checkPlayerOutOfBound();
 	}
 	
 	private void updateRotation(){
@@ -159,6 +166,22 @@ public class Player {
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.R)){
 			weapon.reload(currentWeapon);
+		}
+	}
+	
+	private void checkPlayerOutOfBound(){
+		if(playerSprite.getX() < minPositionX){
+			playerSprite.setPosition(minPositionX, playerSprite.getY());
+		}
+		else if(playerSprite.getX() > maxPositionX){
+			playerSprite.setPosition(maxPositionX, playerSprite.getY());
+		}
+		
+		if(playerSprite.getY() < minPositionY){
+			playerSprite.setPosition(playerSprite.getX(), minPositionY);
+		}
+		else if(playerSprite.getY() > maxPositionY){
+			playerSprite.setPosition(playerSprite.getX(), maxPositionY);
 		}
 	}
 }

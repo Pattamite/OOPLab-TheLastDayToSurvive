@@ -3,8 +3,8 @@ package com.thelastdaytosurvive.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainGameWorld {
-	public static final float GAME_X = 3200;
-	public static final float GAME_Y = 1800;
+	public static final float MAP_X = 3200;
+	public static final float MAP_Y = 1800;
 	
 	private MainGameScreen mainGameScreen;
 	public SpriteBatch batch;
