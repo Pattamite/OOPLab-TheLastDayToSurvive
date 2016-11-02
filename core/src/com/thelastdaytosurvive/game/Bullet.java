@@ -94,7 +94,7 @@ public class Bullet {
 	}
 	
 	private boolean isOutfBound(BulletInfo info){
-		return (info.xPostion < 0 || info.xPostion > 1600 || info.yPostion < 0 || info.yPostion > 900);
+		return (info.xPostion < 0 || info.xPostion > MainGameWorld.GAME_X || info.yPostion < 0 || info.yPostion > MainGameWorld.GAME_Y);
 	}
 	
 	private void drawBullet(SpriteBatch batch){

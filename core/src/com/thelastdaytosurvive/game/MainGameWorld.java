@@ -3,6 +3,9 @@ package com.thelastdaytosurvive.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainGameWorld {
+	public static final float GAME_X = 3200;
+	public static final float GAME_Y = 1800;
+	
 	private MainGameScreen mainGameScreen;
 	public SpriteBatch batch;
 	public Player player;
@@ -15,7 +18,7 @@ public class MainGameWorld {
 		
 		bullet = new Bullet();
 		weapon = new Weapon(bullet);
-		player = new Player(this, weapon);
+		player = new Player(mainGameScreen, weapon);
 	}
 	
 	public void update(float delta){

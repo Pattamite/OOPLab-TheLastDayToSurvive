@@ -11,7 +11,7 @@ public class Player {
 	public static int WEAPON_PRIMARY = 0;
 	public static int WEAPON_SECONDARY = 1;
 	
-	private MainGameWorld mainGameWorld;
+	private MainGameScreen mainGameScreen;
 	private Weapon weapon;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
@@ -30,9 +30,9 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(MainGameWorld mainGameWorld, Weapon weapon){
+	public Player(MainGameScreen mainGameScreen, Weapon weapon){
 		
-		this.mainGameWorld = mainGameWorld;
+		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
 		setTextureRegion();
 		setUpSprite();
@@ -78,7 +78,7 @@ public class Player {
 	private void setUpSprite(){
 		currentWeapon = WEAPON_PRIMARY;
 		playerSprite = new Sprite(playerFrames[currentWeapon]);
-		playerSprite.setPosition(Gdx.graphics.getWidth()/2 - playerSprite.getWidth()/2, Gdx.graphics.getHeight()/2 - playerSprite.getHeight()/2);
+		playerSprite.setPosition(1600, 900);
 	}
 	
 	private void updatePosition(){
@@ -116,11 +116,14 @@ public class Player {
 	
 	private void updateRotation(){
 		float playerPosiX = playerSprite.getX() + playerSprite.getWidth() / 2;
-		float playerPosiY = ( (playerSprite.getY() + playerSprite.getHeight() / 2) - Gdx.graphics.getHeight() / 2) * (-1f) + Gdx.graphics.getHeight() / 2;
+		float playerPosiY = playerSprite.getY() + playerSprite.getHeight() / 2;
 		float playerRotate = playerSprite.getRotation() - 90f;
-		float mouseX = Gdx.input.getX();
-		float mouseY = Gdx.input.getY();
-		float rotateTarget = (float) (Math.atan2((double)(mouseY - playerPosiY) ,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
+		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX());
+		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) + (Gdx.graphics.getHeight()) );
+		
+		//System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY + " / " + Gdx.input.getX() + " " + Gdx.input.getY());
+		
+		float rotateTarget = (float) (Math.atan2((double)(playerPosiY - mouseY) ,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
 		
 		playerSprite.rotate(rotateTarget - playerRotate);
 	}

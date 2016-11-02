@@ -13,14 +13,16 @@ public class MainGameHud {
 	private Texture progressTexture;
 	
 	private Player player;
+	private MainGameScreen mainGameScreen;
 	
-	public MainGameHud(Player player){
+	public MainGameHud(Player player, MainGameScreen mainGameScreen){
 		font32 = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		font14 = new BitmapFont(Gdx.files.internal("Font/Cloud14.fnt"));
 		reloadBarTexture = new Texture(Gdx.files.internal("ReloadBar/ReloadBar.png"));
 		progressTexture = new Texture(Gdx.files.internal("ReloadBar/Progress.png"));
 		
 		this.player = player;
+		this.mainGameScreen = mainGameScreen;
 		font32.setColor(Color.BLACK);
 	}
 	
@@ -33,7 +35,7 @@ public class MainGameHud {
 		int currentAmmo = player.getAmmoCount();
 		int pocketAmmo = player.getPocketCount();
 		
-		font32.draw(batch, currentAmmo + " / " + pocketAmmo, 1480, 40);
+		font32.draw(batch, currentAmmo + " / " + pocketAmmo, mainGameScreen.screenPositionX(1480), mainGameScreen.screenPositionY(40));
 	}
 	
 	private void reloadBar(SpriteBatch batch){
