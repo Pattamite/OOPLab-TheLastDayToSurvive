@@ -68,7 +68,8 @@ public class Player {
 	
 	private void setTextureRegion(){
 		playerSheet = new Texture("Player/Player.png");
-		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols, playerSheet.getHeight()/frameRows);
+		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols
+								, playerSheet.getHeight()/frameRows);
 		playerFrames = new TextureRegion[frameRows * frameCols];
 		counter1 = 0;
 		for(counter2 = 0; counter2 < frameRows; counter2++){
@@ -111,11 +112,13 @@ public class Player {
 		}
 		
 		if(isHoriMove && isVertiMove){
-			playerSprite.translate(horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime(), vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime());
+			playerSprite.translate(horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime()
+									, vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime());
 		}
 		
 		else if(isHoriMove || isVertiMove){
-			playerSprite.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime(), vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
+			playerSprite.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime()
+									, vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
 		}
 		
 		checkPlayerOutOfBound();
@@ -128,9 +131,11 @@ public class Player {
 		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX());
 		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) + (Gdx.graphics.getHeight()) );
 		
-		//System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY + " / " + Gdx.input.getX() + " " + Gdx.input.getY());
+		/*System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY 
+		 * + " / " + Gdx.input.getX() + " " + Gdx.input.getY());*/
 		
-		float rotateTarget = (float) (Math.atan2((double)(playerPosiY - mouseY) ,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
+		float rotateTarget = (float) (Math.atan2((double)(playerPosiY - mouseY) 
+								,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
 		
 		playerSprite.rotate(rotateTarget - playerRotate);
 	}

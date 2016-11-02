@@ -35,7 +35,8 @@ public class MainGameHud {
 		int currentAmmo = player.getAmmoCount();
 		int pocketAmmo = player.getPocketCount();
 		
-		font32.draw(batch, currentAmmo + " / " + pocketAmmo, mainGameScreen.screenPositionX(1480), mainGameScreen.screenPositionY(40));
+		font32.draw(batch, currentAmmo + " / " + pocketAmmo, mainGameScreen.screenPositionX(1480)
+					, mainGameScreen.screenPositionY(40));
 	}
 	
 	private void reloadBar(SpriteBatch batch){
