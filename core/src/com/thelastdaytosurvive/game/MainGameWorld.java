@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MainGameWorld {
 	public static final float MAP_X = 3200;
 	public static final float MAP_Y = 1800;
+	public static final float CAMERA_X = 1600;
+	public static final float CAMERA_Y = 900;
 	
 	private MainGameScreen mainGameScreen;
 	public SpriteBatch batch;

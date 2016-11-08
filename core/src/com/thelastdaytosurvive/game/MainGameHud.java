@@ -49,4 +49,20 @@ public class MainGameHud {
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
 		}
 	}
+	
+	private float leftMargin(float value){
+		return value;
+	}
+	
+	private float rightMargin(float value){
+		return Gdx.graphics.getWidth() - value;
+	}
+	
+	private float upMargin(float value){
+		return Gdx.graphics.getHeight() - value;
+	}
+	
+	private float downMargin(float value){
+		return value;
+	}
 }

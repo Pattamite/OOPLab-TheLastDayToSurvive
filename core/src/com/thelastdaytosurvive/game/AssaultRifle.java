@@ -31,7 +31,7 @@ public class AssaultRifle {
 	}
 	
 	public void pullTrigger(float x, float y, float rotation){
-		if(!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
+		if (!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
 			bullet.newBullet(Weapon.ASSAULT_RIFLE, x, y, rotation);
 			currentAmmo--;
 			lastShotTime = TimeUtils.millis();
@@ -39,7 +39,7 @@ public class AssaultRifle {
 	}
 	
 	public void reload(){
-		if(!isReloading && (pocketAmmo > 0) && (currentAmmo != (MAG_CAPACITY + 1))){
+		if (!isReloading && (pocketAmmo > 0) && (currentAmmo != (MAG_CAPACITY + 1))){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
 		}
@@ -54,27 +54,25 @@ public class AssaultRifle {
 	}
 	
 	private void checkReload(){
-		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
-			if(currentAmmo <= 0){
-				if(pocketAmmo > (MAG_CAPACITY - currentAmmo)){
+		if (isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
+			if( currentAmmo <= 0){
+				if (pocketAmmo > (MAG_CAPACITY - currentAmmo)){
 					pocketAmmo -= (MAG_CAPACITY - currentAmmo); 
 					currentAmmo = MAG_CAPACITY;
-				}
-				else{
+				} else {
 					currentAmmo = pocketAmmo;
 					pocketAmmo = 0;
 				}
-			}
-			else{
-				if(pocketAmmo > (MAG_CAPACITY + 1 - currentAmmo)){
+			} else {
+				if (pocketAmmo > (MAG_CAPACITY + 1 - currentAmmo)){
 					pocketAmmo -= (MAG_CAPACITY + 1 - currentAmmo); 
 					currentAmmo = MAG_CAPACITY + 1;
-				}
-				else{
+				} else {
 					currentAmmo += pocketAmmo;
 					pocketAmmo = 0;
 				}
 			}
+			
 			isReloading = false;
 		}
 	}

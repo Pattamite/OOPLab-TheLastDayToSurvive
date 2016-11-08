@@ -22,12 +22,11 @@ public class MainGameScreen extends ScreenAdapter {
 		batch = lastDayGame.batch;
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, MainGameWorld.MAP_X/2, MainGameWorld.MAP_Y/2);
+		camera.setToOrtho(false, MainGameWorld.CAMERA_X, MainGameWorld.CAMERA_Y);
 	}
 	
 	@Override
 	public void render(float delta){
-		
 		mainGameWorld.update(delta);
 		
 		cameraUpdate();
@@ -43,19 +42,19 @@ public class MainGameScreen extends ScreenAdapter {
 	
 	private void cameraUpdate(){
 		float x = mainGameWorld.player.playerSprite.getX();
-		if(x < (Gdx.graphics.getWidth() / 2)){
-			x = (Gdx.graphics.getWidth() / 2);
+		if(x < (MainGameWorld.CAMERA_X / 2)){
+			x = (MainGameWorld.CAMERA_X / 2);
 		}
-		else if(x > (MainGameWorld.MAP_X - (Gdx.graphics.getWidth() / 2))){
-			x = (MainGameWorld.MAP_X - (Gdx.graphics.getWidth() / 2));
+		else if(x > (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2))){
+			x = (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2));
 		}
 		
 		float y = mainGameWorld.player.playerSprite.getY();
-		if(y < (Gdx.graphics.getHeight() / 2)){
-			y = (Gdx.graphics.getHeight() / 2);
+		if(y < (MainGameWorld.CAMERA_Y / 2)){
+			y = (MainGameWorld.CAMERA_Y / 2);
 		}
-		else if(y > (MainGameWorld.MAP_Y - (Gdx.graphics.getHeight() / 2))){
-			y = (MainGameWorld.MAP_Y - (Gdx.graphics.getHeight() / 2));
+		else if(y > (MainGameWorld.MAP_Y - (MainGameWorld.CAMERA_Y / 2))){
+			y = (MainGameWorld.MAP_Y - (MainGameWorld.CAMERA_Y / 2));
 		}
 		
 		camera.position.set(x, y, 0);
@@ -63,18 +62,18 @@ public class MainGameScreen extends ScreenAdapter {
 	}
 	
 	public float screenPositionX (float value){
-		return camera.position.x - (Gdx.graphics.getWidth() / 2) + value;
+		return camera.position.x - (MainGameWorld.CAMERA_X  / 2) + value;
 	}
 	
 	public float screenPositionY (float value){
-		return camera.position.y - (Gdx.graphics.getHeight() / 2) + value;
+		return camera.position.y - (MainGameWorld.CAMERA_Y  / 2) + value;
 	}
 	
 	public float gamePositionX (float value){
-		return value + camera.position.x - (Gdx.graphics.getWidth() / 2);
+		return value + camera.position.x - (MainGameWorld.CAMERA_X / 2);
 	}
 	
 	public float gamePositionY (float value){
-		return value + camera.position.y - (Gdx.graphics.getHeight() / 2);
+		return value + camera.position.y - (MainGameWorld.CAMERA_Y / 2);
 	}
 }

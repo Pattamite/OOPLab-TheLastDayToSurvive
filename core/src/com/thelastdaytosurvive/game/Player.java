@@ -125,14 +125,15 @@ public class Player {
 	}
 	
 	private void updateRotation(){
-		float playerPosiX = playerSprite.getX() + playerSprite.getWidth() / 2;
-		float playerPosiY = playerSprite.getY() + playerSprite.getHeight() / 2;
+		float playerPosiX = playerSprite.getX() + (playerSprite.getWidth() ) / 2;
+		float playerPosiY = playerSprite.getY() + (playerSprite.getHeight() ) / 2;
 		float playerRotate = playerSprite.getRotation() - 90f;
-		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX());
-		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) + (Gdx.graphics.getHeight()) );
+		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX() * (MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()));
+		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) * (MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y) );
 		
-		/*System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY 
-		 * + " / " + Gdx.input.getX() + " " + Gdx.input.getY());*/
+//		System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY 
+//		  + " / " + Gdx.input.getX() + " " + Gdx.input.getY() + " / " + (playerSprite.getWidth() * ((float)Gdx.graphics.getWidth() / 1600f)) + " " + (playerSprite.getHeight() * ((float)Gdx.graphics.getHeight() / 900f)));
+		System.out.println(Gdx.input.getX() * (MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()) + "/" + (((-1)*Gdx.input.getY()) * (MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y)));
 		
 		float rotateTarget = (float) (Math.atan2((double)(playerPosiY - mouseY) 
 								,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
