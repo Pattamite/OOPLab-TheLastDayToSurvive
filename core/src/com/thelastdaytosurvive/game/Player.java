@@ -36,7 +36,6 @@ public class Player {
 	private int counter3;
 	
 	public Player(MainGameScreen mainGameScreen, Weapon weapon){
-		
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
 		setTextureRegion();
@@ -93,30 +92,26 @@ public class Player {
 		boolean isVertiMove = false;
 		boolean isHoriMove = false;
 
-		if(Gdx.input.isKeyPressed(Input.Keys.W)){
+		if (Gdx.input.isKeyPressed(Input.Keys.W)){
 			isVertiMove = true;
 			vertiSpeed = 1;
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+		} else if (Gdx.input.isKeyPressed(Input.Keys.S)){
 			isVertiMove = true;
 			vertiSpeed = -1;
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.D)){
+		if (Gdx.input.isKeyPressed(Input.Keys.D)){
 			isHoriMove = true;
 			horiSpeed = 1;
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+		} else if (Gdx.input.isKeyPressed(Input.Keys.A)){
 			isHoriMove = true;
 			horiSpeed = -1;
 		}
 		
-		if(isHoriMove && isVertiMove){
+		if (isHoriMove && isVertiMove){
 			playerSprite.translate(horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime()
 									, vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime());
-		}
-		
-		else if(isHoriMove || isVertiMove){
+		} else if (isHoriMove || isVertiMove){
 			playerSprite.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime()
 									, vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
 		}
@@ -133,7 +128,7 @@ public class Player {
 		
 //		System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY 
 //		  + " / " + Gdx.input.getX() + " " + Gdx.input.getY() + " / " + (playerSprite.getWidth() * ((float)Gdx.graphics.getWidth() / 1600f)) + " " + (playerSprite.getHeight() * ((float)Gdx.graphics.getHeight() / 900f)));
-		System.out.println(Gdx.input.getX() * (MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()) + "/" + (((-1)*Gdx.input.getY()) * (MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y)));
+//		System.out.println(Gdx.input.getX() * (MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()) + "/" + (((-1)*Gdx.input.getY()) * (MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y)));
 		
 		float rotateTarget = (float) (Math.atan2((double)(playerPosiY - mouseY) 
 								,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
@@ -144,14 +139,13 @@ public class Player {
 	private void updateWeapon(){
 		selectedWeapon = -1;
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
 			selectedWeapon = WEAPON_PRIMARY;
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
 			selectedWeapon = WEAPON_SECONDARY;
 		}
 		
-		if(selectedWeapon != -1 && selectedWeapon != currentWeapon){
+		if (selectedWeapon != -1 && selectedWeapon != currentWeapon){
 			weapon.cancleReload(currentWeapon);
 			currentWeapon = selectedWeapon;
 			playerSprite.setRegion(playerFrames[currentWeapon]);
@@ -160,13 +154,12 @@ public class Player {
 	
 	private void updateAttack(){
 		
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 			float x = (float) (playerSprite.getX() + 27 + 30 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI));
 			float y = (float) (playerSprite.getY() + 27 + 30 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI));
 			
 			weapon.pullTrigger(currentWeapon, x, y, playerSprite.getRotation() + 90);
-		}
-		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+		} else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 			weapon.releaseTrigger(currentWeapon);
 		}
 		
@@ -176,17 +169,15 @@ public class Player {
 	}
 	
 	private void checkPlayerOutOfBound(){
-		if(playerSprite.getX() < minPositionX){
+		if (playerSprite.getX() < minPositionX){
 			playerSprite.setPosition(minPositionX, playerSprite.getY());
-		}
-		else if(playerSprite.getX() > maxPositionX){
+		} else if (playerSprite.getX() > maxPositionX){
 			playerSprite.setPosition(maxPositionX, playerSprite.getY());
 		}
 		
 		if(playerSprite.getY() < minPositionY){
 			playerSprite.setPosition(playerSprite.getX(), minPositionY);
-		}
-		else if(playerSprite.getY() > maxPositionY){
+		} else if (playerSprite.getY() > maxPositionY){
 			playerSprite.setPosition(playerSprite.getX(), maxPositionY);
 		}
 	}

@@ -40,7 +40,7 @@ public class MainGameHud {
 	}
 	
 	private void reloadBar(SpriteBatch batch){
-		if(player.isReloading()){
+		if (player.isReloading()){
 			float x = player.playerSprite.getX() - 20;
 			float y = player.playerSprite.getY() - 20;
 			float value = player.reloadProgress();
@@ -48,21 +48,5 @@ public class MainGameHud {
 			batch.draw(reloadBarTexture, x, y);
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
 		}
-	}
-	
-	private float leftMargin(float value){
-		return value;
-	}
-	
-	private float rightMargin(float value){
-		return Gdx.graphics.getWidth() - value;
-	}
-	
-	private float upMargin(float value){
-		return Gdx.graphics.getHeight() - value;
-	}
-	
-	private float downMargin(float value){
-		return value;
 	}
 }

@@ -30,7 +30,7 @@ public class NineMmPistol {
 	}
 	
 	public void pullTrigger(float x, float y, float rotation){
-		if(isReady && !isReloading && (currentAmmo > 0) ){
+		if (isReady && !isReloading && (currentAmmo > 0) ){
 			bullet.newBullet(Weapon.NINEMM_PISTOL, x, y, rotation);
 			currentAmmo--;
 			isReady = false;
@@ -42,7 +42,7 @@ public class NineMmPistol {
 	}
 	
 	public void reload(){
-		if(!isReloading && (currentAmmo != (MAG_CAPACITY + 1))){
+		if (!isReloading && (currentAmmo != (MAG_CAPACITY + 1))){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
 		}
@@ -57,13 +57,13 @@ public class NineMmPistol {
 	}
 	
 	private void checkReload(){
-		if(isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
+		if (isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
 			if(currentAmmo <= 0){
 				currentAmmo = MAG_CAPACITY;
-			}
-			else{
+			} else {
 				currentAmmo = MAG_CAPACITY + 1;
 			}
+			
 			isReloading = false;
 		}
 	}

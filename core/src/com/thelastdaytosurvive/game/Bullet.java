@@ -66,7 +66,7 @@ public class Bullet {
 		//System.out.println("" + bulletInfoArray.size);
 		Iterator<BulletInfo> iterInfo = bulletInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = bulletRectangleArray.iterator();
-		while(iterInfo.hasNext() && iterRectangle.hasNext()){
+		while (iterInfo.hasNext() && iterRectangle.hasNext()){
 			BulletInfo info = iterInfo.next();
 			info.xPostion += info.xSpeed * delta;
 			info.yPostion += info.ySpeed * delta;
@@ -80,13 +80,13 @@ public class Bullet {
 	private void checkCondition(){
 		Iterator<BulletInfo> iterInfo = bulletInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = bulletRectangleArray.iterator();
-		while(iterInfo.hasNext() && iterRectangle.hasNext()){
+		while (iterInfo.hasNext() && iterRectangle.hasNext()){
 			BulletInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			
 			boolean isRemove = isOutfBound(info);
 			
-			if(isRemove){
+			if (isRemove){
 				iterInfo.remove();
 				iterRectangle.remove();
 			}
@@ -100,7 +100,7 @@ public class Bullet {
 	
 	private void drawBullet(SpriteBatch batch){
 		Iterator<BulletInfo> iterInfo = bulletInfoArray.iterator();
-		while(iterInfo.hasNext()){
+		while (iterInfo.hasNext()){
 			BulletInfo info = iterInfo.next();
 			batch.draw(bulletTexture[info.type], info.xPostion, info.yPostion
 					, bulletTexture[info.type].getWidth()/2, bulletTexture[info.type].getHeight()/2

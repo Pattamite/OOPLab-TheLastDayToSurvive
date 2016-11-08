@@ -42,18 +42,17 @@ public class MainGameScreen extends ScreenAdapter {
 	
 	private void cameraUpdate(){
 		float x = mainGameWorld.player.playerSprite.getX();
-		if(x < (MainGameWorld.CAMERA_X / 2)){
+		if (x < (MainGameWorld.CAMERA_X / 2)){
 			x = (MainGameWorld.CAMERA_X / 2);
-		}
-		else if(x > (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2))){
+		} else if (x > (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2))){
 			x = (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2));
 		}
 		
 		float y = mainGameWorld.player.playerSprite.getY();
-		if(y < (MainGameWorld.CAMERA_Y / 2)){
+		
+		if (y < (MainGameWorld.CAMERA_Y / 2)){
 			y = (MainGameWorld.CAMERA_Y / 2);
-		}
-		else if(y > (MainGameWorld.MAP_Y - (MainGameWorld.CAMERA_Y / 2))){
+		} else if (y > (MainGameWorld.MAP_Y - (MainGameWorld.CAMERA_Y / 2))){
 			y = (MainGameWorld.MAP_Y - (MainGameWorld.CAMERA_Y / 2));
 		}
 		
