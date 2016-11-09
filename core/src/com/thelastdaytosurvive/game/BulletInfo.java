@@ -7,4 +7,5 @@ public class BulletInfo {
 	public float xSpeed;
 	public float ySpeed;
 	public float rotation;
+	public int hitCount;
 }

@@ -16,6 +16,7 @@ public class Bullet {
 	private float speedType[] = {1000, 1000};
 	private float picSizeType[] = {12, 12};
 	private float hitBoxSizeType[] = {12, 12};
+	private int hitCount[] = {1, 1};
 	
 	public Bullet(){
 		bulletInfoArray = new Array<BulletInfo>();
@@ -49,6 +50,7 @@ public class Bullet {
 		newInfo.rotation = rotation;
 		newInfo.xSpeed = (float) (speedType[type] * Math.cos(rotation / 180 * Math.PI));
 		newInfo.ySpeed = (float) (speedType[type] * Math.sin(rotation / 180 * Math.PI));
+		newInfo.hitCount = hitCount[type];
 		
 		bulletInfoArray.add(newInfo);
 	}
