@@ -14,7 +14,8 @@ public class Bullet {
 	private Texture bulletTexture[];
 	
 	private float speedType[] = {1000, 1000};
-	private float sizeType[] = {12, 12};
+	private float picSizeType[] = {12, 12};
+	private float hitBoxSizeType[] = {12, 12};
 	
 	public Bullet(){
 		bulletInfoArray = new Array<BulletInfo>();
@@ -53,13 +54,13 @@ public class Bullet {
 	}
 	
 	private void setUpRectangle(int type, float xPosition, float yPosition){
-		Rectangle newRactangle = new Rectangle();
-		newRactangle.x = xPosition;
-		newRactangle.y = yPosition;
-		newRactangle.width = sizeType[type];
-		newRactangle.height = sizeType[type];
+		Rectangle newRectangle = new Rectangle();
+		newRectangle.x = xPosition + (picSizeType[type] / 2) - (hitBoxSizeType[type] / 2);
+		newRectangle.y = yPosition + (picSizeType[type] / 2) - (hitBoxSizeType[type] / 2);
+		newRectangle.width = hitBoxSizeType[type];
+		newRectangle.height = hitBoxSizeType[type];
 		
-		bulletRectangleArray.add(newRactangle);
+		bulletRectangleArray.add(newRectangle);
 	}
 	
 	private void updatePosition(float delta){
@@ -67,13 +68,17 @@ public class Bullet {
 		Iterator<BulletInfo> iterInfo = bulletInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = bulletRectangleArray.iterator();
 		while (iterInfo.hasNext() && iterRectangle.hasNext()){
+			
 			BulletInfo info = iterInfo.next();
-			info.xPostion += info.xSpeed * delta;
-			info.yPostion += info.ySpeed * delta;
+			float deltaX = info.xSpeed * delta;
+			float deltaY = info.ySpeed * delta;
+			
+			info.xPostion += deltaX;
+			info.yPostion += deltaY;
 			
 			Rectangle rectangle = iterRectangle.next();
-			rectangle.x = info.xPostion;
-			rectangle.y = info.yPostion;
+			rectangle.x += deltaX;
+			rectangle.y += deltaY;
 		}
 	}
 	
@@ -107,6 +112,14 @@ public class Bullet {
 					, bulletTexture[info.type].getWidth(), bulletTexture[info.type].getHeight()
 					, 1, 1, info.rotation, 0, 0, bulletTexture[info.type].getWidth()
 					, bulletTexture[info.type].getHeight(), false, false);
+		}
+	}
+	
+	private int typeDamage(int type){
+		switch (type){
+			case Weapon.ASSAULT_RIFLE : return AssaultRifle.DAMAGE;
+			case Weapon.NINEMM_PISTOL : return NineMmPistol.DAMAGE;
+			default : return 0;
 		}
 	}
 }
