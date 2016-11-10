@@ -11,9 +11,9 @@ public class Enemy {
 	
 	private EnemyDumb enemyDumb;
 	
-	public Enemy(){
+	public void setUp(Player player){
+		this.player = player;
 		setUpEnemy();
-		
 		testCase();
 	}
 	
@@ -40,6 +40,7 @@ public class Enemy {
 	}
 	
 	private void testCase(){
-		newEnemy(ENEMY_DUMB, 800, 800);
+		newEnemy(ENEMY_DUMB, 1000, 800);
+		newEnemy(ENEMY_DUMB, 2200, 800);
 	}
 }

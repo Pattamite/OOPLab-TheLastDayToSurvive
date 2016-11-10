@@ -18,7 +18,7 @@ public class EnemyDumb {
 	public Array<Rectangle> enemyDumbRectangleArray;
 	
 	private int maxHealth = 100;
-	private float speed = 5f;
+	private float speed = 100f;
 	private float picSize = 64;
 	private float hitBoxSize = 40;
 	
@@ -39,7 +39,7 @@ public class EnemyDumb {
 	}
 	
 	public void update(float delta){
-		//updateMovement(delta);
+		updateMovement(delta);
 		checkDead();
 	}
 	
@@ -92,6 +92,36 @@ public class EnemyDumb {
 		newRectangle.height = hitBoxSize;
 		
 		enemyDumbRectangleArray.add(newRectangle);
+	}
+	
+	private void updateMovement(float deltaTime){
+		float deltaDistanceX;
+		float deltaDistanceY;
+		float deltaDistance;
+		float deltaX;
+		float deltaY;
+		
+		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		
+		while (iterInfo.hasNext() && iterRectangle.hasNext()){
+			EnemyDumbInfo info = iterInfo.next();
+			Rectangle rectangle = iterRectangle.next();
+			
+			deltaDistanceX = player.playerSprite.getX() - info.xPosition;
+			deltaDistanceY = player.playerSprite.getY() - info.yPosition;
+			deltaDistance = (float)Math.sqrt( (double) ((deltaDistanceX * deltaDistanceX) 
+					+ (deltaDistanceY * deltaDistanceY)));
+			deltaX = speed * deltaTime *  (deltaDistanceX / deltaDistance);
+			deltaY = speed * deltaTime *  (deltaDistanceY / deltaDistance);
+			
+			info.xPosition += deltaX;
+			info.yPosition += deltaY;
+			rectangle.x += deltaX;
+			rectangle.y += deltaY;
+			
+			
+		}
 	}
 	
 	private void checkDead(){
