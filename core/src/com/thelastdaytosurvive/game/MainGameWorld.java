@@ -13,14 +13,19 @@ public class MainGameWorld {
 	public Player player;
 	public Bullet bullet;
 	public Weapon weapon;
+	public Enemy enemy;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.batch;
 		
-		bullet = new Bullet();
+		enemy = new Enemy();
+		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
 		player = new Player(mainGameScreen, weapon);
+		
+		enemy.player = player;
+		
 	}
 	
 	public void update(float delta){
@@ -28,5 +33,6 @@ public class MainGameWorld {
 		bullet.update(delta);
 		weapon.update(Player.WEAPON_PRIMARY);
 		weapon.update(Player.WEAPON_SECONDARY);
+		enemy.update(delta);
 	}
 }

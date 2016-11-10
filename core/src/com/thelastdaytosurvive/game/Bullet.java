@@ -12,20 +12,18 @@ public class Bullet {
 	public Array<Rectangle> bulletRectangleArray;
 	
 	private Texture bulletTexture[];
+	private Enemy enemy;
 	
 	private float speedType[] = {1000, 1000};
 	private float picSizeType[] = {12, 12};
 	private float hitBoxSizeType[] = {12, 12};
 	private int hitCount[] = {1, 1};
 	
-	public Bullet(){
-		bulletInfoArray = new Array<BulletInfo>();
-		bulletRectangleArray = new Array<Rectangle>();
+	public Bullet(Enemy enemy){
+		this.enemy = enemy;
 		
-		bulletTexture = new Texture[2];
-		bulletTexture[0] = new Texture("Bullet/laserBlue03.png");
-		bulletTexture[1] = new Texture("Bullet/laserRed03.png");
-		
+		setUpArray();
+		setUpTexture();
 	}
 	
 	public void newBullet(int type, float xPosition, float yPosition, float rotation){
@@ -40,6 +38,17 @@ public class Bullet {
 	
 	public void draw(SpriteBatch batch){
 		drawBullet(batch);
+	}
+	
+	private void setUpArray(){
+		bulletInfoArray = new Array<BulletInfo>();
+		bulletRectangleArray = new Array<Rectangle>();
+	}
+	
+	private void setUpTexture(){
+		bulletTexture = new Texture[2];
+		bulletTexture[Weapon.ASSAULT_RIFLE] = new Texture("Bullet/laserBlue03.png");
+		bulletTexture[Weapon.NINEMM_PISTOL] = new Texture("Bullet/laserRed03.png");
 	}
 	
 	private void setUpInfo(int type, float xPosition, float yPosition, float rotation){
@@ -91,7 +100,7 @@ public class Bullet {
 			BulletInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			
-			boolean isRemove = isOutfBound(info);
+			boolean isRemove = isOutfBound(info) || isHitCountZero(info, rectangle);
 			
 			if (isRemove){
 				iterInfo.remove();
@@ -103,6 +112,16 @@ public class Bullet {
 	private boolean isOutfBound(BulletInfo info){
 		return (info.xPostion < 0 || info.xPostion > MainGameWorld.MAP_X 
 				|| info.yPostion < 0 || info.yPostion > MainGameWorld.MAP_Y);
+	}
+	
+	private boolean isHitCountZero(BulletInfo info, Rectangle rectangle){
+		enemy.isBulletHit(info, rectangle);
+		
+		if (info.hitCount <= 0){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	private void drawBullet(SpriteBatch batch){
@@ -117,7 +136,7 @@ public class Bullet {
 		}
 	}
 	
-	private int typeDamage(int type){
+	public static int typeDamage(int type){
 		switch (type){
 			case Weapon.ASSAULT_RIFLE : return AssaultRifle.DAMAGE;
 			case Weapon.NINEMM_PISTOL : return NineMmPistol.DAMAGE;
