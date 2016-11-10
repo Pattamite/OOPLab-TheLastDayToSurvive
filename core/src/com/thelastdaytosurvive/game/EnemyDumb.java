@@ -50,7 +50,7 @@ public class EnemyDumb {
 			EnemyDumbInfo info = iterInfo.next();
 			batch.draw(texture, info.xPosition, info.yPosition, texture.getWidth() / 2
 					, texture.getHeight() / 2, texture.getWidth(), texture.getHeight()
-					, 1, 1, info.rotation, 0, 0, texture.getWidth(), texture.getHeight()
+					, 1, 1, info.rotation + 90, 0, 0, texture.getWidth(), texture.getHeight()
 					, false, false);
 			
 			if (isShowHealth){
@@ -100,6 +100,7 @@ public class EnemyDumb {
 		float deltaDistance;
 		float deltaX;
 		float deltaY;
+		float rotateTarget;
 		
 		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
@@ -114,13 +115,15 @@ public class EnemyDumb {
 					+ (deltaDistanceY * deltaDistanceY)));
 			deltaX = speed * deltaTime *  (deltaDistanceX / deltaDistance);
 			deltaY = speed * deltaTime *  (deltaDistanceY / deltaDistance);
+			rotateTarget =  (float) (Math.atan2((double)(-deltaDistanceY) 
+					,(double) (-deltaDistanceX)) * 180.0d / Math.PI);
 			
 			info.xPosition += deltaX;
 			info.yPosition += deltaY;
 			rectangle.x += deltaX;
 			rectangle.y += deltaY;
 			
-			
+			info.rotation = rotateTarget;
 		}
 	}
 	
