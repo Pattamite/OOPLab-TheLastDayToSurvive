@@ -14,7 +14,7 @@ public class Bullet {
 	private Texture bulletTexture[];
 	private Enemy enemy;
 	
-	private float speedType[] = {1000, 1000};
+	private float speedType[] = {3000, 2000};
 	private float picSizeType[] = {12, 12};
 	private float hitBoxSizeType[] = {12, 12};
 	private int hitCount[] = {1, 1};

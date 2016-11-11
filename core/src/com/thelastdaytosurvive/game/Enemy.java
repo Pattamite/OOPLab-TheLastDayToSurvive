@@ -1,7 +1,10 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Enemy {
@@ -10,11 +13,14 @@ public class Enemy {
 	public Player player;
 	
 	private EnemyDumb enemyDumb;
+	private boolean isTestMode = true;
 	
 	public void setUp(Player player){
 		this.player = player;
 		setUpEnemy();
-		testCase();
+		if (isTestMode){
+			testCase();
+		}
 	}
 	
 	public void newEnemy(int type, float xPosition,float yPosition){
@@ -25,6 +31,11 @@ public class Enemy {
 	}
 	public void update(float delta){
 		enemyDumb.update(delta);
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.L) && isTestMode){
+			newEnemy(ENEMY_DUMB, MathUtils.random(0, MainGameWorld.MAP_X)
+					, MathUtils.random(0, MainGameWorld.MAP_Y));
+		}
 	}
 	
 	public void draw(SpriteBatch batch){

@@ -20,6 +20,8 @@ public class Player {
 	
 	
 	public Sprite playerSprite;
+	public int playerMaxHealth = 100;
+	public int playerCurrentHealth;
 	public float playerSpeed = 160f;
 	private float sqrt2 = 1.41421356237f;
 	private float minPositionX = 0;
@@ -38,6 +40,7 @@ public class Player {
 	public Player(MainGameScreen mainGameScreen, Weapon weapon){
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
+		playerCurrentHealth = playerMaxHealth;
 		setTextureRegion();
 		setUpSprite();
 	}
@@ -123,8 +126,10 @@ public class Player {
 		float playerPosiX = playerSprite.getX() + (playerSprite.getWidth() ) / 2;
 		float playerPosiY = playerSprite.getY() + (playerSprite.getHeight() ) / 2;
 		float playerRotate = playerSprite.getRotation() - 90f;
-		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX() * (MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()));
-		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) * (MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y) );
+		float mouseX = mainGameScreen.gamePositionX(Gdx.input.getX() *
+				(MainGameWorld.CAMERA_X / (float)Gdx.graphics.getWidth()));
+		float mouseY = mainGameScreen.gamePositionY( ((-1)*Gdx.input.getY()) * 
+				(MainGameWorld.CAMERA_Y /(float)Gdx.graphics.getHeight()) + (MainGameWorld.CAMERA_Y) );
 		
 //		System.out.println(playerPosiX + " " + playerPosiY + " / " + mouseX + " " + mouseY 
 //		  + " / " + Gdx.input.getX() + " " + Gdx.input.getY() + " / " + (playerSprite.getWidth() * ((float)Gdx.graphics.getWidth() / 1600f)) + " " + (playerSprite.getHeight() * ((float)Gdx.graphics.getHeight() / 900f)));

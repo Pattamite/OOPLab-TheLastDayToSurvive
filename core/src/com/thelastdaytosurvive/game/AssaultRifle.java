@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class AssaultRifle {
 	public static int MAG_CAPACITY = 30;
+	public static int MAG_POCKET = 12;
 	public static long RELOAD_TIME = 3000;
 	public static int DAMAGE = 40;
 	public static long FIRERATE = 86; //~700 rpm
@@ -20,7 +21,7 @@ public class AssaultRifle {
 		this.bullet = bullet;
 		
 		currentAmmo = MAG_CAPACITY + 1;
-		pocketAmmo = 360;
+		pocketAmmo = MAG_CAPACITY * MAG_POCKET;
 		isReloading = false;
 		lastReloadTime = TimeUtils.millis();
 		lastShotTime = TimeUtils.millis();
@@ -56,24 +57,32 @@ public class AssaultRifle {
 	private void checkReload(){
 		if (isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
 			if( currentAmmo <= 0){
-				if (pocketAmmo > (MAG_CAPACITY - currentAmmo)){
-					pocketAmmo -= (MAG_CAPACITY - currentAmmo); 
-					currentAmmo = MAG_CAPACITY;
-				} else {
-					currentAmmo = pocketAmmo;
-					pocketAmmo = 0;
-				}
+				emptyReload();
 			} else {
-				if (pocketAmmo > (MAG_CAPACITY + 1 - currentAmmo)){
-					pocketAmmo -= (MAG_CAPACITY + 1 - currentAmmo); 
-					currentAmmo = MAG_CAPACITY + 1;
-				} else {
-					currentAmmo += pocketAmmo;
-					pocketAmmo = 0;
-				}
+				tacticalReload();
 			}
 			
 			isReloading = false;
+		}
+	}
+	
+	private void emptyReload(){
+		if (pocketAmmo > (MAG_CAPACITY - currentAmmo)){
+			pocketAmmo -= (MAG_CAPACITY - currentAmmo); 
+			currentAmmo = MAG_CAPACITY;
+		} else {
+			currentAmmo = pocketAmmo;
+			pocketAmmo = 0;
+		}
+	}
+	
+	private void tacticalReload(){
+		if (pocketAmmo > (MAG_CAPACITY + 1 - currentAmmo)){
+			pocketAmmo -= (MAG_CAPACITY + 1 - currentAmmo); 
+			currentAmmo = MAG_CAPACITY + 1;
+		} else {
+			currentAmmo += pocketAmmo;
+			pocketAmmo = 0;
 		}
 	}
 }

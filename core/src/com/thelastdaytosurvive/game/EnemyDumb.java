@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class EnemyDumb {
@@ -39,6 +40,7 @@ public class EnemyDumb {
 	}
 	
 	public void update(float delta){
+		//checkAttack();
 		updateMovement(delta);
 		checkDead();
 	}
@@ -95,12 +97,7 @@ public class EnemyDumb {
 	}
 	
 	private void updateMovement(float deltaTime){
-		float deltaDistanceX;
-		float deltaDistanceY;
-		float deltaDistance;
-		float deltaX;
-		float deltaY;
-		float rotateTarget;
+		
 		
 		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
@@ -108,23 +105,35 @@ public class EnemyDumb {
 		while (iterInfo.hasNext() && iterRectangle.hasNext()){
 			EnemyDumbInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
+			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
 			
-			deltaDistanceX = player.playerSprite.getX() - info.xPosition;
-			deltaDistanceY = player.playerSprite.getY() - info.yPosition;
-			deltaDistance = (float)Math.sqrt( (double) ((deltaDistanceX * deltaDistanceX) 
-					+ (deltaDistanceY * deltaDistanceY)));
-			deltaX = speed * deltaTime *  (deltaDistanceX / deltaDistance);
-			deltaY = speed * deltaTime *  (deltaDistanceY / deltaDistance);
-			rotateTarget =  (float) (Math.atan2((double)(-deltaDistanceY) 
-					,(double) (-deltaDistanceX)) * 180.0d / Math.PI);
+			info.xPosition += movementInfo.x;
+			info.yPosition += movementInfo.y;
+			info.rotation = movementInfo.z;
+			rectangle.x += movementInfo.x;
+			rectangle.y += movementInfo.y;
 			
-			info.xPosition += deltaX;
-			info.yPosition += deltaY;
-			rectangle.x += deltaX;
-			rectangle.y += deltaY;
-			
-			info.rotation = rotateTarget;
 		}
+	}
+	
+	private Vector3 calculateMovement(float deltaTime, float x, float y){
+		float deltaDistanceX;
+		float deltaDistanceY;
+		float deltaDistance;
+		float deltaX;
+		float deltaY;
+		float rotateTarget;
+		
+		deltaDistanceX = player.playerSprite.getX() - x;
+		deltaDistanceY = player.playerSprite.getY() - y;
+		deltaDistance = (float)Math.sqrt( (double) ((deltaDistanceX * deltaDistanceX) 
+				+ (deltaDistanceY * deltaDistanceY)));
+		deltaX = speed * deltaTime * (deltaDistanceX / deltaDistance);
+		deltaY = speed * deltaTime * (deltaDistanceY / deltaDistance);
+		rotateTarget =  (float) (Math.atan2((double)(-deltaDistanceY) 
+				,(double) (-deltaDistanceX)) * 180.0d / Math.PI);
+		
+		return new Vector3(deltaX, deltaY, rotateTarget);
 	}
 	
 	private void checkDead(){
