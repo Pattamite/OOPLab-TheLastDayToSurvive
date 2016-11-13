@@ -13,16 +13,16 @@ public class MainGameWorldRenderer {
 	public MainGameWorldRenderer(MainGameScreen mainGameScreen, MainGameWorld mainGameWorld){
 		this.mainGameScreen = mainGameScreen;
 		this.mainGameWorld = mainGameWorld;
-		this.mainGameHud = new MainGameHud(mainGameWorld.player, mainGameScreen);
+		this.mainGameHud = new MainGameHud(mainGameWorld.getPlayer(), mainGameScreen);
 		
 		backgroundTexture = new Texture("Background/background.png");
 	}
 	
 	public void draw(float delta, SpriteBatch batch){
 		batch.draw(backgroundTexture, 0, 0);
-		mainGameWorld.enemy.draw(batch);
-		mainGameWorld.player.playerSprite.draw(batch);
-		mainGameWorld.bullet.draw(batch);
+		mainGameWorld.getEnemy().draw(batch);
+		mainGameWorld.getPlayer().playerSprite.draw(batch);
+		mainGameWorld.getBullet().draw(batch);
 		mainGameHud.draw(batch);
 	}
 }

@@ -9,11 +9,11 @@ public class MainGameWorld {
 	public static final float CAMERA_Y = 900;
 	
 	private MainGameScreen mainGameScreen;
-	public SpriteBatch batch;
-	public Player player;
-	public Bullet bullet;
-	public Weapon weapon;
-	public Enemy enemy;
+	private SpriteBatch batch;
+	private Player player;
+	private Bullet bullet;
+	private Weapon weapon;
+	private Enemy enemy;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
@@ -34,5 +34,25 @@ public class MainGameWorld {
 		weapon.update(Player.WEAPON_PRIMARY);
 		weapon.update(Player.WEAPON_SECONDARY);
 		enemy.update(delta);
+	}
+	
+	public Player getPlayer(){
+		return player;
+	}
+	
+	public SpriteBatch getSpriteBatch(){
+		return batch;
+	}
+	
+	public Bullet getBullet(){
+		return bullet;
+	}
+	
+	public Weapon getWeapon(){
+		return weapon;
+	}
+	
+	public Enemy getEnemy(){
+		return enemy;
 	}
 }
