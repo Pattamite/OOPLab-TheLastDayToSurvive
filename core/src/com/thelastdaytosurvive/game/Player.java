@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Player {
 	
@@ -20,6 +21,8 @@ public class Player {
 	
 	
 	public Sprite playerSprite;
+	public Rectangle playerRectangle;
+	
 	public int playerMaxHealth = 100;
 	public int playerCurrentHealth;
 	public float playerSpeed = 160f;
@@ -28,6 +31,7 @@ public class Player {
 	private float maxPositionX = MainGameWorld.MAP_X - 64;
 	private float minPositionY = 0;
 	private float maxPositionY = MainGameWorld.MAP_Y - 64;
+	private float hitboxSize = 40;
 	
 	
 	private int currentWeapon;
@@ -43,6 +47,7 @@ public class Player {
 		playerCurrentHealth = playerMaxHealth;
 		setTextureRegion();
 		setUpSprite();
+		setUpRectangle();
 	}
 	
 	public void update(){
@@ -68,6 +73,10 @@ public class Player {
 		return weapon.reloadProgress(currentWeapon);
 	}
 	
+	public float getHealth(){
+		return (float)playerCurrentHealth / (float)playerMaxHealth;
+	}
+	
 	private void setTextureRegion(){
 		playerSheet = new Texture("Player/Player.png");
 		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols
@@ -87,6 +96,14 @@ public class Player {
 		currentWeapon = WEAPON_PRIMARY;
 		playerSprite = new Sprite(playerFrames[currentWeapon]);
 		playerSprite.setPosition(1600, 900);
+	}
+	
+	private void setUpRectangle(){
+		playerRectangle = new Rectangle();
+		playerRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - hitboxSize;
+		playerRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - hitboxSize;
+		playerRectangle.width = hitboxSize;
+		playerRectangle.height = hitboxSize;
 	}
 	
 	private void updatePosition(){
