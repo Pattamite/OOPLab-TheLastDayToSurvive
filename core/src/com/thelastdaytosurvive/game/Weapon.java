@@ -5,8 +5,8 @@ public class Weapon {
 	public final static int NINEMM_PISTOL = 1;
 	
 
-	public NineMmPistol nineMmPistol;
-	public AssaultRifle assaultRifle;
+	private NineMmPistol nineMmPistol;
+	private AssaultRifle assaultRifle;
 	
 	public Weapon(Bullet bullet){
 		nineMmPistol = new NineMmPistol(bullet);
@@ -63,23 +63,23 @@ public class Weapon {
 	
 	public int getAmmoCount(int type){
 		switch(type){
-			case ASSAULT_RIFLE : return assaultRifle.currentAmmo; 
-			case NINEMM_PISTOL : return nineMmPistol.currentAmmo; 
+			case ASSAULT_RIFLE : return assaultRifle.getCurrentAmmo(); 
+			case NINEMM_PISTOL : return nineMmPistol.getCurrentAmmo(); 
 			default : return -1;
 		}
 	}
 	
 	public int getPocketCount(int type){
 		switch(type){
-			case ASSAULT_RIFLE : return assaultRifle.pocketAmmo; 
+			case ASSAULT_RIFLE : return assaultRifle.getPocketAmmo(); 
 			default : return -1;
 		}
 	}
 	
 	public boolean isReloading(int type){
 		switch(type){
-			case ASSAULT_RIFLE : return assaultRifle.isReloading; 
-			case NINEMM_PISTOL : return nineMmPistol.isReloading; 
+			case ASSAULT_RIFLE : return assaultRifle.isReloading(); 
+			case NINEMM_PISTOL : return nineMmPistol.isReloading(); 
 			default : return false;
 		}
 	}

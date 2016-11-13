@@ -41,8 +41,8 @@ public class MainGameHud {
 	
 	private void reloadBar(SpriteBatch batch){
 		if (player.isReloading()){
-			float x = player.playerSprite.getX() - 20;
-			float y = player.playerSprite.getY() - 20;
+			float x = player.getSprite().getX() - 20;
+			float y = player.getSprite().getY() - 20;
 			float value = player.reloadProgress();
 			
 			batch.draw(reloadBarTexture, x, y);

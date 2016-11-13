@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Enemy {
 	public static final int ENEMY_DUMB = 0;
 	
-	public Player player;
+	private Player player;
 	
 	private EnemyDumb enemyDumb;
 	private boolean isTestMode = true;

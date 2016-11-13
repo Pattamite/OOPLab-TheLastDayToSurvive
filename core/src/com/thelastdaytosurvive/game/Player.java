@@ -20,12 +20,12 @@ public class Player {
 	private int frameRows = 1;
 	
 	
-	public Sprite playerSprite;
-	public Rectangle playerRectangle;
+	private Sprite playerSprite;
+	private Rectangle playerRectangle;
 	
-	public int playerMaxHealth = 100;
-	public int playerCurrentHealth;
-	public float playerSpeed = 160f;
+	private int playerMaxHealth = 100;
+	private int playerCurrentHealth;
+	private float playerSpeed = 160f;
 	private float sqrt2 = 1.41421356237f;
 	private float minPositionX = 0;
 	private float maxPositionX = MainGameWorld.MAP_X - 64;
@@ -75,6 +75,21 @@ public class Player {
 	
 	public float getHealth(){
 		return (float)playerCurrentHealth / (float)playerMaxHealth;
+	}
+	
+	public Sprite getSprite(){
+		return playerSprite;
+	}
+	
+	public Rectangle getRectangle(){
+		return playerRectangle;
+	}
+	
+	public void getHit(int value){
+		playerCurrentHealth -= value;
+		if(playerCurrentHealth < 0){
+			playerCurrentHealth = 0;
+		}
 	}
 	
 	private void setTextureRegion(){

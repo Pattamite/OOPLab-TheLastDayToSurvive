@@ -15,8 +15,8 @@ public class EnemyDumb {
 	private Texture texture;
 	private BitmapFont font;
 	
-	public Array<EnemyDumbInfo> enemyDumbInfoArray;
-	public Array<Rectangle> enemyDumbRectangleArray;
+	private Array<EnemyDumbInfo> enemyDumbInfoArray;
+	private Array<Rectangle> enemyDumbRectangleArray;
 	
 	private int maxHealth = 100;
 	private float speed = 100f;
@@ -124,8 +124,8 @@ public class EnemyDumb {
 		float deltaY;
 		float rotateTarget;
 		
-		deltaDistanceX = player.playerSprite.getX() - x;
-		deltaDistanceY = player.playerSprite.getY() - y;
+		deltaDistanceX = player.getSprite().getX() - x;
+		deltaDistanceY = player.getSprite().getY() - y;
 		deltaDistance = (float)Math.sqrt( (double) ((deltaDistanceX * deltaDistanceX) 
 				+ (deltaDistanceY * deltaDistanceY)));
 		deltaX = speed * deltaTime * (deltaDistanceX / deltaDistance);

@@ -11,8 +11,8 @@ public class MainGameScreen extends ScreenAdapter {
 	private LastDayGame lastDayGame;
 	private MainGameWorld mainGameWorld;
 	private MainGameWorldRenderer mainGameWorldRenderer;
-	public SpriteBatch batch;
-	public OrthographicCamera camera;
+	private SpriteBatch batch;
+	private OrthographicCamera camera;
 	
 	public MainGameScreen(LastDayGame lastDayGame){
 		this.lastDayGame = lastDayGame;
@@ -40,15 +40,19 @@ public class MainGameScreen extends ScreenAdapter {
 		batch.end();
 	}
 	
+	public SpriteBatch getSpriteBatch(){
+		return batch;
+	}
+	
 	private void cameraUpdate(){
-		float x = mainGameWorld.getPlayer().playerSprite.getX();
+		float x = mainGameWorld.getPlayer().getSprite().getX();
 		if (x < (MainGameWorld.CAMERA_X / 2)){
 			x = (MainGameWorld.CAMERA_X / 2);
 		} else if (x > (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2))){
 			x = (MainGameWorld.MAP_X - (MainGameWorld.CAMERA_X / 2));
 		}
 		
-		float y = mainGameWorld.getPlayer().playerSprite.getY();
+		float y = mainGameWorld.getPlayer().getSprite().getY();
 		
 		if (y < (MainGameWorld.CAMERA_Y / 2)){
 			y = (MainGameWorld.CAMERA_Y / 2);

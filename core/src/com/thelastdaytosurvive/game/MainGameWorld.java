@@ -17,7 +17,7 @@ public class MainGameWorld {
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
-		batch = mainGameScreen.batch;
+		batch = mainGameScreen.getSpriteBatch();
 		
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);

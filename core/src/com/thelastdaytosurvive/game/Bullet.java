@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class Bullet {
-	public Array<BulletInfo> bulletInfoArray;
-	public Array<Rectangle> bulletRectangleArray;
+	private Array<BulletInfo> bulletInfoArray;
+	private Array<Rectangle> bulletRectangleArray;
 	
 	private Texture bulletTexture[];
 	private Enemy enemy;

@@ -9,11 +9,11 @@ public class NineMmPistol {
 	
 	private Bullet bullet;
 	
-	public int currentAmmo;
-	public int pocketAmmo;
-	public long lastReloadTime;
-	public boolean isReloading;
-	public boolean isReady;
+	private int currentAmmo;
+	private int pocketAmmo;
+	private long lastReloadTime;
+	private boolean isReloading;
+	private boolean isReady;
 	
 	public NineMmPistol(Bullet bullet){
 		this.bullet = bullet;
@@ -54,6 +54,18 @@ public class NineMmPistol {
 	
 	public float reloadProgress(){
 		return (((float)(TimeUtils.millis() - lastReloadTime) / (float)RELOAD_TIME) * 100f);
+	}
+	
+	public int getCurrentAmmo(){
+		return currentAmmo;
+	}
+	
+	public int getPocketAmmo(){
+		return pocketAmmo;
+	}
+	
+	public boolean isReloading(){
+		return isReloading;
 	}
 	
 	private void checkReload(){

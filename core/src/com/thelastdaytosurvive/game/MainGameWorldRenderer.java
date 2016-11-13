@@ -21,7 +21,7 @@ public class MainGameWorldRenderer {
 	public void draw(float delta, SpriteBatch batch){
 		batch.draw(backgroundTexture, 0, 0);
 		mainGameWorld.getEnemy().draw(batch);
-		mainGameWorld.getPlayer().playerSprite.draw(batch);
+		mainGameWorld.getPlayer().getSprite().draw(batch);
 		mainGameWorld.getBullet().draw(batch);
 		mainGameHud.draw(batch);
 	}

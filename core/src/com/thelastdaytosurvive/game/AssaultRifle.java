@@ -11,11 +11,11 @@ public class AssaultRifle {
 	
 	private Bullet bullet;
 	
-	public int currentAmmo;
-	public int pocketAmmo;
-	public long lastReloadTime;
-	public long lastShotTime;
-	public boolean isReloading;
+	private int currentAmmo;
+	private int pocketAmmo;
+	private long lastReloadTime;
+	private long lastShotTime;
+	private boolean isReloading;
 	
 	public AssaultRifle(Bullet bullet){
 		this.bullet = bullet;
@@ -52,6 +52,18 @@ public class AssaultRifle {
 	
 	public float reloadProgress(){
 		return (((float)(TimeUtils.millis() - lastReloadTime) / (float)RELOAD_TIME) * 100f);
+	}
+	
+	public int getCurrentAmmo(){
+		return currentAmmo;
+	}
+	
+	public int getPocketAmmo(){
+		return pocketAmmo;
+	}
+	
+	public boolean isReloading(){
+		return isReloading;
 	}
 	
 	private void checkReload(){
