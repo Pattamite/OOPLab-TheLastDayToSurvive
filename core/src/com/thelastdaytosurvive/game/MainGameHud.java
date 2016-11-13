@@ -27,8 +27,14 @@ public class MainGameHud {
 	}
 	
 	public void draw(SpriteBatch batch){
+		healthBar(batch);
 		ammoCount(batch);
 		reloadBar(batch);
+	}
+	
+	private void healthBar(SpriteBatch batch){
+		font32.draw(batch, "" + player.getHealth(), mainGameScreen.screenPositionX(1480)
+				, mainGameScreen.screenPositionY(80));
 	}
 	
 	private void ammoCount(SpriteBatch batch){

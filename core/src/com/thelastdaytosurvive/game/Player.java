@@ -73,8 +73,8 @@ public class Player {
 		return weapon.reloadProgress(currentWeapon);
 	}
 	
-	public float getHealth(){
-		return (float)playerCurrentHealth / (float)playerMaxHealth;
+	public int getHealth(){
+		return playerCurrentHealth;
 	}
 	
 	public Sprite getSprite(){
@@ -144,11 +144,17 @@ public class Player {
 		}
 		
 		if (isHoriMove && isVertiMove){
-			playerSprite.translate(horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime()
-									, vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime());
+			float x = horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime();
+			float y = vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime();
+			playerSprite.translate(x, y);
+			playerRectangle.x += x;
+			playerRectangle.y += y;
 		} else if (isHoriMove || isVertiMove){
-			playerSprite.translate(horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime()
-									, vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime());
+			float x = horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
+			float y = vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
+			playerSprite.translate(x, y);
+			playerRectangle.x += x;
+			playerRectangle.y += y;	
 		}
 		
 		checkPlayerOutOfBound();
