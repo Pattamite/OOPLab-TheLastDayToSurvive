@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class EnemyDumb {
 	private Player player;
@@ -19,6 +20,8 @@ public class EnemyDumb {
 	private Array<Rectangle> enemyDumbRectangleArray;
 	
 	private int maxHealth = 100;
+	private int damage = 5;
+	private long attackDelay = 1000;
 	private float speed = 100f;
 	private float picSize = 64;
 	private float hitBoxSize = 40;
@@ -43,6 +46,7 @@ public class EnemyDumb {
 		//checkAttack();
 		updateMovement(delta);
 		checkDead();
+		checkAttack();
 	}
 	
 	public void draw(SpriteBatch batch){
@@ -82,6 +86,7 @@ public class EnemyDumb {
 		newInfo.xPosition = xPosition;
 		newInfo.yPosition = yPosition;
 		newInfo.rotation = 0;
+		newInfo.lastAttackTime = 0;
 		
 		enemyDumbInfoArray.add(newInfo);
 	}
@@ -147,6 +152,22 @@ public class EnemyDumb {
 			if (info.health <= 0){
 				iterInfo.remove();
 				iterRectangle.remove();
+			}
+		}
+	}
+	
+	private void checkAttack(){
+		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		
+		while (iterInfo.hasNext() && iterRectangle.hasNext()){
+			EnemyDumbInfo info = iterInfo.next();
+			Rectangle rectangle = iterRectangle.next();
+			
+			if(rectangle.overlaps(player.getRectangle()) && 
+					(TimeUtils.millis() - info.lastAttackTime > attackDelay)){
+				player.getHit(damage);
+				info.lastAttackTime = TimeUtils.millis();
 			}
 		}
 	}

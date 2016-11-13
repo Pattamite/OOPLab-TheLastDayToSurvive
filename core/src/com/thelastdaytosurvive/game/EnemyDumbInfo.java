@@ -5,4 +5,5 @@ public class EnemyDumbInfo {
 	public float xPosition;
 	public float yPosition;
 	public float rotation;
+	public long lastAttackTime;
 }

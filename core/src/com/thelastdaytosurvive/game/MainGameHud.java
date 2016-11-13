@@ -47,6 +47,10 @@ public class MainGameHud {
 			
 			batch.draw(reloadBarTexture, x, y);
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
-		}
+		} else if (player.getAmmoCount() <= 0){
+			float x = player.getSprite().getX() - 20;
+			float y = player.getSprite().getY() - 20;
+			font32.draw(batch, "Reload", x, y);
+		}	
 	}
 }
