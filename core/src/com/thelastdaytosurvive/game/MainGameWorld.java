@@ -14,15 +14,18 @@ public class MainGameWorld {
 	private Bullet bullet;
 	private Weapon weapon;
 	private Enemy enemy;
+	private Map map;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.getSpriteBatch();
 		
+		map = new Map(this);
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
 		player = new Player(mainGameScreen, weapon);
+		
 		
 		enemy.setUp(player);
 		
@@ -34,6 +37,7 @@ public class MainGameWorld {
 		weapon.update(Player.WEAPON_PRIMARY);
 		weapon.update(Player.WEAPON_SECONDARY);
 		enemy.update(delta);
+		map.update();
 	}
 	
 	public Player getPlayer(){
@@ -54,5 +58,9 @@ public class MainGameWorld {
 	
 	public Enemy getEnemy(){
 		return enemy;
+	}
+	
+	public Map getMap(){
+		return map;
 	}
 }

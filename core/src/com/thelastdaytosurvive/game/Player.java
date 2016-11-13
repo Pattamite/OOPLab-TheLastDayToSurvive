@@ -31,7 +31,7 @@ public class Player {
 	private float maxPositionX = MainGameWorld.MAP_X - 64;
 	private float minPositionY = 0;
 	private float maxPositionY = MainGameWorld.MAP_Y - 64;
-	private float hitboxSize = 40;
+	private float hitboxSize = 46;
 	
 	
 	private int currentWeapon;
@@ -115,8 +115,8 @@ public class Player {
 	
 	private void setUpRectangle(){
 		playerRectangle = new Rectangle();
-		playerRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - hitboxSize;
-		playerRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - hitboxSize;
+		playerRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - (hitboxSize / 2);
+		playerRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - (hitboxSize / 2);
 		playerRectangle.width = hitboxSize;
 		playerRectangle.height = hitboxSize;
 	}
