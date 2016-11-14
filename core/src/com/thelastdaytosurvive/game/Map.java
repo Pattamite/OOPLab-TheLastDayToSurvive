@@ -67,7 +67,7 @@ public class Map {
 		worldMapRectangle[yPosition][xPosition].width = 1;
 	}
 	
-	public Vector2 mapMovement(Rectangle mover, Vector2 movement){
+	public Vector2 playerMapMovement(Rectangle mover, Vector2 movement){
 		float xMovement = movement.x;
 		float yMovement = movement.y;
 		if (isHitFence(mover, 'x', movement.x)){

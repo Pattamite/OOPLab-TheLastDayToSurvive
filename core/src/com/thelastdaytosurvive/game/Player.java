@@ -168,21 +168,14 @@ public class Player {
 		if (isHoriMove && isVertiMove){
 			float x = horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime();
 			float y = vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime();
-			mapMovement = map.mapMovement(playerMovementRectangle , new Vector2(x, y));
-			playerSprite.translate(mapMovement.x, mapMovement.y);
-			playerRectangle.x += mapMovement.x;
-			playerRectangle.y += mapMovement.y;
-			playerMovementRectangle.x += mapMovement.x;
-			playerMovementRectangle.y += mapMovement.y;
+			mapMovement = map.playerMapMovement(playerMovementRectangle , new Vector2(x, y));
+			playerMove(mapMovement);
+			
 		} else if (isHoriMove || isVertiMove){
 			float x = horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
 			float y = vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
-			mapMovement = map.mapMovement(playerMovementRectangle , new Vector2(x, y));
-			playerSprite.translate(mapMovement.x, mapMovement.y);
-			playerRectangle.x += mapMovement.x;
-			playerRectangle.y += mapMovement.y;
-			playerMovementRectangle.x += mapMovement.x;
-			playerMovementRectangle.y += mapMovement.y;
+			mapMovement = map.playerMapMovement(playerMovementRectangle , new Vector2(x, y));
+			playerMove(mapMovement);
 		}
 		
 		checkPlayerOutOfBound();
@@ -261,5 +254,13 @@ public class Player {
 		} else if (playerSprite.getY() > maxPositionY){
 			playerSprite.setPosition(playerSprite.getX(), maxPositionY);
 		}
+	}
+	
+	private void playerMove(Vector2 mapMovement){
+		playerSprite.translate(mapMovement.x, mapMovement.y);
+		playerRectangle.x += mapMovement.x;
+		playerRectangle.y += mapMovement.y;
+		playerMovementRectangle.x += mapMovement.x;
+		playerMovementRectangle.y += mapMovement.y;
 	}
 }
