@@ -6,14 +6,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Player {
 	
 	public static int WEAPON_PRIMARY = 0;
 	public static int WEAPON_SECONDARY = 1;
+	public static int PLAYER_COMBAT = 0;
+	public static int PLAYER_CRAFTING = 1;
 	
 	private MainGameScreen mainGameScreen;
 	private Weapon weapon;
+	private Map map;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
 	private int frameCols = 2;
@@ -22,6 +26,7 @@ public class Player {
 	
 	private Sprite playerSprite;
 	private Rectangle playerRectangle;
+	private Rectangle playerMovementRectangle;
 	
 	private int playerMaxHealth = 100;
 	private int playerCurrentHealth;
@@ -32,8 +37,9 @@ public class Player {
 	private float minPositionY = 0;
 	private float maxPositionY = MainGameWorld.MAP_Y - 64;
 	private float hitboxSize = 46;
+	private float movementRectangleSize = 40;
 	
-	
+	private int currentMode;
 	private int currentWeapon;
 	private int selectedWeapon;
 	
@@ -41,10 +47,12 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(MainGameScreen mainGameScreen, Weapon weapon){
+	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map){
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
+		this.map = map;
 		playerCurrentHealth = playerMaxHealth;
+		currentMode = PLAYER_COMBAT;
 		setTextureRegion();
 		setUpSprite();
 		setUpRectangle();
@@ -53,8 +61,14 @@ public class Player {
 	public void update(){
 		updatePosition();
 		updateRotation();
-		updateWeapon();
-		updateAttack();
+		updateMode();
+		if (currentMode == PLAYER_COMBAT){
+			updateWeapon();
+			updateAttack();
+		} else if (currentMode == PLAYER_CRAFTING){
+			
+		}
+		
 	}
 	
 	public int getAmmoCount(){
@@ -119,6 +133,12 @@ public class Player {
 		playerRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - (hitboxSize / 2);
 		playerRectangle.width = hitboxSize;
 		playerRectangle.height = hitboxSize;
+		
+		playerMovementRectangle = new Rectangle();
+		playerMovementRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - (movementRectangleSize / 2);
+		playerMovementRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - (movementRectangleSize / 2);
+		playerMovementRectangle.width = movementRectangleSize;
+		playerMovementRectangle.height = movementRectangleSize;
 	}
 	
 	private void updatePosition(){
@@ -143,18 +163,26 @@ public class Player {
 			horiSpeed = -1;
 		}
 		
+		Vector2 mapMovement;
+		
 		if (isHoriMove && isVertiMove){
 			float x = horiSpeed * playerSpeed / sqrt2 * Gdx.graphics.getDeltaTime();
 			float y = vertiSpeed * playerSpeed / sqrt2* Gdx.graphics.getDeltaTime();
-			playerSprite.translate(x, y);
-			playerRectangle.x += x;
-			playerRectangle.y += y;
+			mapMovement = map.mapMovement(playerMovementRectangle , new Vector2(x, y));
+			playerSprite.translate(mapMovement.x, mapMovement.y);
+			playerRectangle.x += mapMovement.x;
+			playerRectangle.y += mapMovement.y;
+			playerMovementRectangle.x += mapMovement.x;
+			playerMovementRectangle.y += mapMovement.y;
 		} else if (isHoriMove || isVertiMove){
 			float x = horiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
 			float y = vertiSpeed * playerSpeed * Gdx.graphics.getDeltaTime();
-			playerSprite.translate(x, y);
-			playerRectangle.x += x;
-			playerRectangle.y += y;	
+			mapMovement = map.mapMovement(playerMovementRectangle , new Vector2(x, y));
+			playerSprite.translate(mapMovement.x, mapMovement.y);
+			playerRectangle.x += mapMovement.x;
+			playerRectangle.y += mapMovement.y;
+			playerMovementRectangle.x += mapMovement.x;
+			playerMovementRectangle.y += mapMovement.y;
 		}
 		
 		checkPlayerOutOfBound();
@@ -177,6 +205,16 @@ public class Player {
 								,(double) (playerPosiX - mouseX)) * 180.0d / Math.PI);
 		
 		playerSprite.rotate(rotateTarget - playerRotate);
+	}
+	
+	private void updateMode(){
+		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
+			if (currentMode == PLAYER_COMBAT){
+				currentMode = PLAYER_CRAFTING;
+			} else if (currentMode == PLAYER_CRAFTING){
+				currentMode = PLAYER_COMBAT;
+			}
+		}
 	}
 	
 	private void updateWeapon(){

@@ -23,6 +23,7 @@ public class MainGameWorldRenderer {
 		mainGameWorld.getEnemy().draw(batch);
 		mainGameWorld.getPlayer().getSprite().draw(batch);
 		mainGameWorld.getBullet().draw(batch);
+		mainGameWorld.getMap().draw(batch);
 		mainGameHud.draw(batch);
 	}
 }

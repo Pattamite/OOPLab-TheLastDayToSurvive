@@ -24,7 +24,7 @@ public class MainGameWorld {
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
-		player = new Player(mainGameScreen, weapon);
+		player = new Player(mainGameScreen, weapon, map);
 		
 		
 		enemy.setUp(player);
