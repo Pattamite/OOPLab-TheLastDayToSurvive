@@ -12,16 +12,16 @@ public class MainGameHud {
 	private Texture reloadBarTexture;
 	private Texture progressTexture;
 	
-	private Player player;
 	private MainGameScreen mainGameScreen;
+	private MainGameWorld mainGameWorld;
 	
-	public MainGameHud(Player player, MainGameScreen mainGameScreen){
+	public MainGameHud(MainGameWorld mainGameWorld, MainGameScreen mainGameScreen){
 		font32 = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		font14 = new BitmapFont(Gdx.files.internal("Font/Cloud14.fnt"));
 		reloadBarTexture = new Texture(Gdx.files.internal("ReloadBar/ReloadBar.png"));
 		progressTexture = new Texture(Gdx.files.internal("ReloadBar/Progress.png"));
 		
-		this.player = player;
+		this.mainGameWorld = mainGameWorld;
 		this.mainGameScreen = mainGameScreen;
 		font32.setColor(Color.BLACK);
 	}
@@ -30,33 +30,41 @@ public class MainGameHud {
 		healthBar(batch);
 		ammoCount(batch);
 		reloadBar(batch);
+		resourceBar(batch);
 	}
 	
 	private void healthBar(SpriteBatch batch){
-		font32.draw(batch, "" + player.getHealth(), mainGameScreen.screenPositionX(1480)
+		font32.draw(batch, "" + mainGameWorld.getPlayer().getHealth(), mainGameScreen.screenPositionX(1480)
 				, mainGameScreen.screenPositionY(80));
 	}
 	
 	private void ammoCount(SpriteBatch batch){
-		int currentAmmo = player.getAmmoCount();
-		int pocketAmmo = player.getPocketCount();
+		int currentAmmo = mainGameWorld.getPlayer().getAmmoCount();
+		int pocketAmmo = mainGameWorld.getPlayer().getPocketCount();
 		
 		font32.draw(batch, currentAmmo + " / " + pocketAmmo, mainGameScreen.screenPositionX(1480)
 					, mainGameScreen.screenPositionY(40));
 	}
 	
 	private void reloadBar(SpriteBatch batch){
-		if (player.isReloading()){
-			float x = player.getSprite().getX() - 20;
-			float y = player.getSprite().getY() - 20;
-			float value = player.reloadProgress();
+		if (mainGameWorld.getPlayer().isReloading()){
+			float x = mainGameWorld.getPlayer().getSprite().getX() - 20;
+			float y = mainGameWorld.getPlayer().getSprite().getY() - 20;
+			float value = mainGameWorld.getPlayer().reloadProgress();
 			
 			batch.draw(reloadBarTexture, x, y);
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
-		} else if (player.getAmmoCount() <= 0){
-			float x = player.getSprite().getX() - 20;
-			float y = player.getSprite().getY() - 20;
+		} else if (mainGameWorld.getPlayer().getAmmoCount() <= 0){
+			float x = mainGameWorld.getPlayer().getSprite().getX() - 20;
+			float y = mainGameWorld.getPlayer().getSprite().getY() - 20;
 			font32.draw(batch, "Reload", x, y);
 		}	
+	}
+	
+	private void resourceBar(SpriteBatch batch){
+		font32.draw(batch, "Wood : " + mainGameWorld.getCrafting().getCurrentWood()
+				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(80));
+		font32.draw(batch, "Metal : " + mainGameWorld.getCrafting().getCurrentMetal()
+				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(40));
 	}
 }

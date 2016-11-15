@@ -116,6 +116,14 @@ public class Crafting {
 		return false;
 	}
 	
+	public int getCurrentWood(){
+		return currentWood;
+	}
+	
+	public int getCurrentMetal(){
+		return currentMetal;
+	}
+	
 	private void setUpTexture(){
 		wFenceHoriPositive = new Texture("Fence/WoodenFenceHorizontalPreviewPositive.png");
 		wFenceHoriNegative = new Texture("Fence/WoodenFenceHorizontalPreviewNegative.png");

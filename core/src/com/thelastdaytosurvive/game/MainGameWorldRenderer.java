@@ -13,7 +13,7 @@ public class MainGameWorldRenderer {
 	public MainGameWorldRenderer(MainGameScreen mainGameScreen, MainGameWorld mainGameWorld){
 		this.mainGameScreen = mainGameScreen;
 		this.mainGameWorld = mainGameWorld;
-		this.mainGameHud = new MainGameHud(mainGameWorld.getPlayer(), mainGameScreen);
+		this.mainGameHud = new MainGameHud(mainGameWorld, mainGameScreen);
 		
 		backgroundTexture = new Texture("Background/background.png");
 	}
