@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Player {
 	
@@ -14,7 +15,6 @@ public class Player {
 	public static int WEAPON_SECONDARY = 1;
 	public static int PLAYER_COMBAT = 0;
 	public static int PLAYER_CRAFTING = 1;
-	public static int PLAYER_CRAFTING_CHOICE = 0;
 	
 	private MainGameScreen mainGameScreen;
 	private Weapon weapon;
@@ -40,6 +40,13 @@ public class Player {
 	private float maxPositionY = MainGameWorld.MAP_Y - 64;
 	private float hitboxSize = 46;
 	private float movementRectangleSize = 36;
+	private float craftingXPosition;
+	private float craftingYPosition;
+	private boolean isCraftable;
+	private int craftingRotation;
+	private int craftingChoice = 0;
+	private long craftDelay = 200;
+	private long lastCraftTime = 0;
 	
 	private int currentMode;
 	private int currentWeapon;
@@ -69,7 +76,8 @@ public class Player {
 			updateWeapon();
 			updateAttack();
 		} else if (currentMode == PLAYER_CRAFTING){
-			updateCrafting();
+			updateCraftingPreview();
+			updateCraftingControl();
 		}
 		
 	}
@@ -246,23 +254,46 @@ public class Player {
 		}
 	}
 	
-	private void updateCrafting(){
+	private void updateCraftingPreview(){
 		if ((playerSprite.getRotation() > -45f) && (playerSprite.getRotation() <= 45f)){
-			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() / 2f))
-					, (playerSprite.getY() + (playerSprite.getHeight() * 1.5f)))
-					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_HORIZONTAL);
+			craftingXPosition = (playerSprite.getX() + (playerSprite.getWidth() / 2f));
+			craftingYPosition = (playerSprite.getY() + (playerSprite.getHeight() * 1.5f));	
+			craftingRotation = Crafting.CREAFTING_HORIZONTAL;
+			
 		} else if ((playerSprite.getRotation() > 45f) && (playerSprite.getRotation() <= 135f)){
-			crafting.preview(new Vector2( (playerSprite.getX() - (playerSprite.getWidth() / 2f))
-					, (playerSprite.getY() + (playerSprite.getHeight() / 2f)))
-					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_VERTICAL);
+			craftingXPosition = (playerSprite.getX() - (playerSprite.getWidth() / 2f));
+			craftingYPosition = (playerSprite.getY() + (playerSprite.getHeight() / 2f));
+			craftingRotation = Crafting.CREAFTING_VERTICAL;
 		} else if((playerSprite.getRotation() > 135f) && (playerSprite.getRotation() <= 225f)){
-			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() / 2f))
-					, (playerSprite.getY() - (playerSprite.getHeight() / 2f)))
-					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_HORIZONTAL);
+			craftingXPosition = (playerSprite.getX() + (playerSprite.getWidth() / 2f));
+			craftingYPosition = (playerSprite.getY() - (playerSprite.getHeight() / 2f));
+			craftingRotation = Crafting.CREAFTING_HORIZONTAL;
 		} else {
-			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() * 1.5f))
-					, (playerSprite.getY() + (playerSprite.getHeight() / 2f)))
-					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_VERTICAL);
+			craftingXPosition = (playerSprite.getX() + (playerSprite.getWidth() * 1.5f));
+			craftingYPosition = (playerSprite.getY() + (playerSprite.getHeight() / 2f));
+			craftingRotation = Crafting.CREAFTING_VERTICAL;
+		}
+		
+		isCraftable = crafting.preview(new Vector2(craftingXPosition, craftingYPosition)
+				, craftingChoice, craftingRotation);
+	}
+	
+	private void updateCraftingControl(){
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			craftingChoice = Crafting.CRAFTING_WFENCE_TYPE;
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			craftingChoice = Crafting.CRAFTING_MFENCE_TYPE;
+		}
+		
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && isCraftable
+				&& (TimeUtils.millis() - lastCraftTime > craftDelay)){
+			if(crafting.createFence(craftingChoice, craftingXPosition
+					, craftingYPosition, craftingRotation)){
+				lastCraftTime = TimeUtils.millis();
+				//playSuccessSound();
+			} else {
+				//playFailSound();
+			}
 		}
 	}
 	

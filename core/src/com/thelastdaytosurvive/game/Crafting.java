@@ -29,7 +29,7 @@ public class Crafting {
 	
 	
 	private int currentWood = 40;
-	private int currentMetal = 0;
+	private int currentMetal = 100;
 	private boolean isPreview = false;
 	private boolean isPlaceable = false;
 	private int previewType;
@@ -95,6 +95,25 @@ public class Crafting {
 				}
 			}
 		}
+	}
+	
+	public boolean createFence(int type, float x, float y, int rotation){
+		if (type == CRAFTING_WFENCE_TYPE && currentWood >= CRAFTING_WFENCE_WOOD 
+				&& currentMetal >= CRAFTING_WFENCE_METAL){
+			map.createFence(x, y, type, rotation);
+			currentWood -= CRAFTING_WFENCE_WOOD;
+			currentMetal -= CRAFTING_WFENCE_METAL;
+			
+			return true;
+		} else if (type == CRAFTING_MFENCE_TYPE && currentWood >= CRAFTING_MFENCE_WOOD 
+				&& currentMetal >= CRAFTING_MFENCE_METAL){
+			map.createFence(x, y, type, rotation);
+			currentWood -= CRAFTING_MFENCE_WOOD;
+			currentMetal -= CRAFTING_MFENCE_METAL;
+					
+			return true;
+		}
+		return false;
 	}
 	
 	private void setUpTexture(){

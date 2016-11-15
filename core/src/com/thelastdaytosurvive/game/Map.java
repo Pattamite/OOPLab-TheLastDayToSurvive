@@ -178,7 +178,7 @@ public class Map {
 		int yPosition = yPosition(mover.getY() + (mover.getHeight() / 2));
 		boolean ans = false;
 		
-		System.out.println(xPosition + " / " + yPosition);
+		//System.out.println(xPosition + " / " + yPosition);
 		
 		if(axis == 'x'){
 			mover.x += movement;
