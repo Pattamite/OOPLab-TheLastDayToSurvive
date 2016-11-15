@@ -39,14 +39,8 @@ public class Crafting {
 	
 	public Crafting(Map map){
 		this.map = map;
-		wFenceHoriPositive = new Texture("Fence/WoodenFenceHorizontalPreviewPositive.png");
-		wFenceHoriNegative = new Texture("Fence/WoodenFenceHorizontalPreviewNegative.png");
-		wFenceVertiPositive = new Texture("Fence/WoodenFenceVerticalPreviewPositive.png");
-		wFenceVertiNegative = new Texture("Fence/WoodenFenceVerticalPreviewNegative.png");
-		mFenceHoriPositive = new Texture("Fence/MetalFenceHorizontalPreviewPositive.png");
-		mFenceHoriNegative = new Texture("Fence/MetalFenceHorizontalPreviewNegative.png");
-		mFenceVertiPositive = new Texture("Fence/MetalFenceVerticalPreviewPositive.png");
-		mFenceVertiNegative = new Texture("Fence/MetalFenceVerticalPreviewNegative.png");
+		setUpTexture();
+		
 	}
 	
 	public boolean preview(Vector2 position, int type,int rotation){
@@ -103,6 +97,17 @@ public class Crafting {
 		}
 	}
 	
+	private void setUpTexture(){
+		wFenceHoriPositive = new Texture("Fence/WoodenFenceHorizontalPreviewPositive.png");
+		wFenceHoriNegative = new Texture("Fence/WoodenFenceHorizontalPreviewNegative.png");
+		wFenceVertiPositive = new Texture("Fence/WoodenFenceVerticalPreviewPositive.png");
+		wFenceVertiNegative = new Texture("Fence/WoodenFenceVerticalPreviewNegative.png");
+		mFenceHoriPositive = new Texture("Fence/MetalFenceHorizontalPreviewPositive.png");
+		mFenceHoriNegative = new Texture("Fence/MetalFenceHorizontalPreviewNegative.png");
+		mFenceVertiPositive = new Texture("Fence/MetalFenceVerticalPreviewPositive.png");
+		mFenceVertiNegative = new Texture("Fence/MetalFenceVerticalPreviewNegative.png");
+	}
+	
 	private boolean previewFenceHori(Vector2 position){
 		boolean ans = true;
 		int xPosition = map.xPosition(position.x);
@@ -112,7 +117,9 @@ public class Crafting {
 		previewPositionX = map.xGamePosition(xPosition - 2);
 		previewPositionY = map.yGamePosition(yPosition);
 		
-		if(map.getWorldMap()[yPosition][xPosition] != Map.MAP_FREESPACE){
+		if(xPosition < 0 || xPosition >= Map.MAP_XNUM || yPosition < 0 || yPosition >= Map.MAP_YNUM ){
+			ans = false;
+		} else if(map.getWorldMap()[yPosition][xPosition] != Map.MAP_FREESPACE){
 			ans = false;
 		}
 		if((xPosition + 1) < Map.MAP_XNUM){
@@ -140,7 +147,9 @@ public class Crafting {
 		previewPositionX = map.xGamePosition(xPosition);
 		previewPositionY = map.yGamePosition(yPosition + 2);
 		
-		if(map.getWorldMap()[yPosition][xPosition] != Map.MAP_FREESPACE){
+		if(xPosition < 0 || xPosition >= Map.MAP_XNUM || yPosition < 0 || yPosition >= Map.MAP_YNUM ){
+			ans = false;
+		} else if(map.getWorldMap()[yPosition][xPosition] != Map.MAP_FREESPACE){
 			ans = false;
 		}
 		if((yPosition + 1) < Map.MAP_YNUM){
@@ -158,4 +167,5 @@ public class Crafting {
 		
 		return ans;
 	}
+	
 }
