@@ -29,7 +29,7 @@ public class MainGameWorld {
 		player = new Player(mainGameScreen, weapon, map, crafting);
 		
 		
-		enemy.setUp(player);
+		enemy.setUp(player, map);
 		
 	}
 	

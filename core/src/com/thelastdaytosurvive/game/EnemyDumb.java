@@ -13,11 +13,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class EnemyDumb {
 	private Player player;
+	private Map map;
 	private Texture texture;
 	private BitmapFont font;
 	
 	private Array<EnemyDumbInfo> enemyDumbInfoArray;
 	private Array<Rectangle> enemyDumbRectangleArray;
+	private Array<Rectangle> enemyDumbMovementRectangleArray;
 	
 	private int maxHealth = 100;
 	private int damage = 5;
@@ -25,16 +27,19 @@ public class EnemyDumb {
 	private float speed = 100f;
 	private float picSize = 64;
 	private float hitBoxSize = 40;
+	private float movementSize = 36;
 	
 	private boolean isShowHealth = true;
 	
-	public EnemyDumb(Player player){
+	public EnemyDumb(Player player, Map map){
 		this.player = player;
+		this.map = map;
 		texture = new Texture("Enemy/Dumb.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
 		enemyDumbInfoArray = new Array<EnemyDumbInfo>();
 		enemyDumbRectangleArray = new Array<Rectangle>();
+		enemyDumbMovementRectangleArray = new Array<Rectangle>();
 	}
 	
 	public void newEnemyDumb(float xPosition, float yPosition){
@@ -97,8 +102,14 @@ public class EnemyDumb {
 		newRectangle.y = yPosition + (picSize / 2) - (hitBoxSize / 2);
 		newRectangle.width = hitBoxSize;
 		newRectangle.height = hitBoxSize;
-		
 		enemyDumbRectangleArray.add(newRectangle);
+		
+		Rectangle newMovementRectangle = new Rectangle();
+		newMovementRectangle.x = xPosition + (picSize / 2) - (movementSize / 2);
+		newMovementRectangle.y = yPosition + (picSize / 2) - (movementSize / 2);
+		newMovementRectangle.width = movementSize;
+		newMovementRectangle.height = movementSize;
+		enemyDumbMovementRectangleArray.add(newMovementRectangle);
 	}
 	
 	private void updateMovement(float deltaTime){
@@ -106,18 +117,23 @@ public class EnemyDumb {
 		
 		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		Iterator<Rectangle> iterMovementRectangle = enemyDumbMovementRectangleArray.iterator();
 		
-		while (iterInfo.hasNext() && iterRectangle.hasNext()){
+		while (iterInfo.hasNext()){
 			EnemyDumbInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
-			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
+			Rectangle movementRectangle = iterMovementRectangle.next();
+			//Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
+			Vector3 movementInfo = map.enemyDumbMapMovement(movementRectangle,
+					calculateMovement(deltaTime, info.xPosition, info.yPosition));
 			
 			info.xPosition += movementInfo.x;
 			info.yPosition += movementInfo.y;
 			info.rotation = movementInfo.z;
 			rectangle.x += movementInfo.x;
 			rectangle.y += movementInfo.y;
-			
+			movementRectangle.x += movementInfo.x;
+			movementRectangle.y += movementInfo.y;
 		}
 	}
 	
@@ -144,14 +160,17 @@ public class EnemyDumb {
 	private void checkDead(){
 		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		Iterator<Rectangle> iterMovementRectangle = enemyDumbMovementRectangleArray.iterator();
 		
-		while (iterInfo.hasNext() && iterRectangle.hasNext()){
+		while (iterInfo.hasNext() && iterRectangle.hasNext() && iterMovementRectangle.hasNext()){
 			EnemyDumbInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
+			Rectangle movementRectangle = iterMovementRectangle.next();
 			
 			if (info.health <= 0){
 				iterInfo.remove();
 				iterRectangle.remove();
+				iterMovementRectangle.remove();
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Map {
 	public static final char MAP_FREESPACE = '.';
@@ -93,6 +94,19 @@ public class Map {
 		};
 		
 		return new Vector2(xMovement, yMovement);
+	}
+	
+	public Vector3 enemyDumbMapMovement(Rectangle mover, Vector3 movement){
+		float xMovement = movement.x;
+		float yMovement = movement.y;
+		if (isHitFence(mover, 'x', movement.x)){
+			xMovement = 0;
+		}
+		if(isHitFence(mover, 'y', movement.y)){
+			yMovement = 0;
+		};
+		
+		return new Vector3(xMovement, yMovement, movement.z);
 	}
 	
 	public void draw(SpriteBatch batch){

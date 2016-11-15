@@ -11,12 +11,14 @@ public class Enemy {
 	public static final int ENEMY_DUMB = 0;
 	
 	private Player player;
+	private Map map;
 	
 	private EnemyDumb enemyDumb;
 	private boolean isTestMode = true;
 	
-	public void setUp(Player player){
+	public void setUp(Player player, Map map){
 		this.player = player;
+		this.map = map;
 		setUpEnemy();
 		if (isTestMode){
 			testCase();
@@ -47,7 +49,7 @@ public class Enemy {
 	}
 	
 	private void setUpEnemy(){
-		enemyDumb = new EnemyDumb(player);
+		enemyDumb = new EnemyDumb(player, map);
 	}
 	
 	private void testCase(){
