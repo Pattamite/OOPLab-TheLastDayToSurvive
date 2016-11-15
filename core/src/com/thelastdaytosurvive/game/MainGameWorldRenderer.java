@@ -24,6 +24,7 @@ public class MainGameWorldRenderer {
 		mainGameWorld.getPlayer().getSprite().draw(batch);
 		mainGameWorld.getBullet().draw(batch);
 		mainGameWorld.getMap().draw(batch);
+		mainGameWorld.getCrafting().draw(batch);
 		mainGameHud.draw(batch);
 	}
 }

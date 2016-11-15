@@ -15,16 +15,18 @@ public class MainGameWorld {
 	private Weapon weapon;
 	private Enemy enemy;
 	private Map map;
+	private Crafting crafting;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.getSpriteBatch();
 		
 		map = new Map(this);
+		crafting = new Crafting(map);
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
-		player = new Player(mainGameScreen, weapon, map);
+		player = new Player(mainGameScreen, weapon, map, crafting);
 		
 		
 		enemy.setUp(player);
@@ -62,5 +64,9 @@ public class MainGameWorld {
 	
 	public Map getMap(){
 		return map;
+	}
+	
+	public Crafting getCrafting(){
+		return crafting;
 	}
 }

@@ -14,10 +14,12 @@ public class Player {
 	public static int WEAPON_SECONDARY = 1;
 	public static int PLAYER_COMBAT = 0;
 	public static int PLAYER_CRAFTING = 1;
+	public static int PLAYER_CRAFTING_CHOICE = 0;
 	
 	private MainGameScreen mainGameScreen;
 	private Weapon weapon;
 	private Map map;
+	private Crafting crafting;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
 	private int frameCols = 2;
@@ -37,7 +39,7 @@ public class Player {
 	private float minPositionY = 0;
 	private float maxPositionY = MainGameWorld.MAP_Y - 64;
 	private float hitboxSize = 46;
-	private float movementRectangleSize = 40;
+	private float movementRectangleSize = 36;
 	
 	private int currentMode;
 	private int currentWeapon;
@@ -47,10 +49,11 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map){
+	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map, Crafting crafting){
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
 		this.map = map;
+		this.crafting = crafting;
 		playerCurrentHealth = playerMaxHealth;
 		currentMode = PLAYER_COMBAT;
 		setTextureRegion();
@@ -66,7 +69,7 @@ public class Player {
 			updateWeapon();
 			updateAttack();
 		} else if (currentMode == PLAYER_CRAFTING){
-			
+			updateCrafting();
 		}
 		
 	}
@@ -205,6 +208,7 @@ public class Player {
 			if (currentMode == PLAYER_COMBAT){
 				currentMode = PLAYER_CRAFTING;
 			} else if (currentMode == PLAYER_CRAFTING){
+				crafting.canclePreview();
 				currentMode = PLAYER_COMBAT;
 			}
 		}
@@ -242,17 +246,37 @@ public class Player {
 		}
 	}
 	
+	private void updateCrafting(){
+		if ((playerSprite.getRotation() > -45f) && (playerSprite.getRotation() <= 45f)){
+			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() / 2f))
+					, (playerSprite.getY() + (playerSprite.getHeight() * 1.5f)))
+					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_HORIZONTAL);
+		} else if ((playerSprite.getRotation() > 45f) && (playerSprite.getRotation() <= 135f)){
+			crafting.preview(new Vector2( (playerSprite.getX() - (playerSprite.getWidth() / 2f))
+					, (playerSprite.getY() + (playerSprite.getHeight() / 2f)))
+					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_VERTICAL);
+		} else if((playerSprite.getRotation() > 135f) && (playerSprite.getRotation() <= 225f)){
+			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() / 2f))
+					, (playerSprite.getY() - (playerSprite.getHeight() / 2f)))
+					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_HORIZONTAL);
+		} else {
+			crafting.preview(new Vector2( (playerSprite.getX() + (playerSprite.getWidth() * 1.5f))
+					, (playerSprite.getY() + (playerSprite.getHeight() / 2f)))
+					, PLAYER_CRAFTING_CHOICE, Crafting.CREAFTING_VERTICAL);
+		}
+	}
+	
 	private void checkPlayerOutOfBound(){
 		if (playerSprite.getX() < minPositionX){
-			playerSprite.setPosition(minPositionX, playerSprite.getY());
+			setPlayerPosition(new Vector2(minPositionX, playerSprite.getY()));
 		} else if (playerSprite.getX() > maxPositionX){
-			playerSprite.setPosition(maxPositionX, playerSprite.getY());
+			setPlayerPosition(new Vector2(maxPositionX, playerSprite.getY()));
 		}
 		
 		if(playerSprite.getY() < minPositionY){
-			playerSprite.setPosition(playerSprite.getX(), minPositionY);
+			setPlayerPosition(new Vector2(playerSprite.getX(), minPositionY));
 		} else if (playerSprite.getY() > maxPositionY){
-			playerSprite.setPosition(playerSprite.getX(), maxPositionY);
+			setPlayerPosition(new Vector2(playerSprite.getX(), maxPositionY));
 		}
 	}
 	
@@ -263,4 +287,13 @@ public class Player {
 		playerMovementRectangle.x += mapMovement.x;
 		playerMovementRectangle.y += mapMovement.y;
 	}
+	
+	private void setPlayerPosition(Vector2 position){
+		playerSprite.setPosition(position.x, position.y);
+		playerRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - (hitboxSize / 2);
+		playerRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - (hitboxSize / 2);
+		playerMovementRectangle.x = playerSprite.getX() + (playerSprite.getWidth() / 2) - (movementRectangleSize / 2);
+		playerMovementRectangle.y = playerSprite.getY() + (playerSprite.getHeight() / 2) - (movementRectangleSize / 2);
+	}
+
 }
