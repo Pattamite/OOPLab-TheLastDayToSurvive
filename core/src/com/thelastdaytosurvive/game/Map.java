@@ -132,6 +132,9 @@ public class Map {
 					batch.draw(mFenceVerti, xGamePosition(j), yGamePosition(i + 2));
 				}
 				
+//				if (worldMap[i][j] != MAP_FREESPACE){
+//					batch.draw(testFence, xGamePosition(j), yGamePosition(i));
+//				}
 			}
 		}
 	}
@@ -459,13 +462,12 @@ public class Map {
 			disableRectangle(x - 2, y);
 		}
 		if(x + 1 < MAP_XNUM){
-			worldMap[y + 1][x] = MAP_FREESPACE;
+			worldMap[y][x + 1] = MAP_FREESPACE;
 			disableRectangle(x + 1, y);
 		}
 		if(x + 2 < MAP_XNUM){
-			worldMap[y + 2][x] = MAP_FREESPACE;
+			worldMap[y][x + 2] = MAP_FREESPACE;
 			disableRectangle(x + 2, y);
 		}
 	}
-	
 }
