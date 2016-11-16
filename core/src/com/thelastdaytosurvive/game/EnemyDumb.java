@@ -16,6 +16,7 @@ public class EnemyDumb {
 	private Map map;
 	private Texture texture;
 	private BitmapFont font;
+	private MainGameTracker tracker;
 	
 	private Array<EnemyDumbInfo> enemyDumbInfoArray;
 	private Array<Rectangle> enemyDumbRectangleArray;
@@ -31,9 +32,10 @@ public class EnemyDumb {
 	
 	private boolean isShowHealth = true;
 	
-	public EnemyDumb(Player player, Map map){
+	public EnemyDumb(Player player, Map map,MainGameTracker tracker){
 		this.player = player;
 		this.map = map;
+		this.tracker = tracker;
 		texture = new Texture("Enemy/Dumb.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
@@ -45,6 +47,7 @@ public class EnemyDumb {
 	public void newEnemyDumb(float xPosition, float yPosition){
 		setupInfo(xPosition, yPosition);
 		setupRectangle(xPosition, yPosition);
+		System.out.println("Spawn Dumb at " + xPosition + " / " + yPosition);
 	}
 	
 	public void update(float delta){
@@ -185,6 +188,7 @@ public class EnemyDumb {
 				iterInfo.remove();
 				iterRectangle.remove();
 				iterMovementRectangle.remove();
+				tracker.enemyDown(Enemy.ENEMY_DUMB);
 			}
 		}
 	}

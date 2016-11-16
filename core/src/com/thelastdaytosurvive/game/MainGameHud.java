@@ -32,6 +32,8 @@ public class MainGameHud {
 		ammoCount(batch);
 		reloadBar(batch);
 		resourceBar(batch);
+		phaseBar(batch);
+		scoreBar(batch);
 		//aiMap(batch);
 	}
 	
@@ -82,6 +84,26 @@ public class MainGameHud {
 				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(80));
 		font32.draw(batch, "Metal : " + mainGameWorld.getCrafting().getCurrentMetal()
 				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(40));
+	}
+	
+	private void phaseBar(SpriteBatch batch){
+		if (mainGameWorld.getTracker().getPhase() == MainGameTracker.PHASE_PREP_TYPE){
+			font32.draw(batch, "PREP PHASE"
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(860));
+			font32.draw(batch, "Time : " + mainGameWorld.getTracker().getPrepTime()
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(820));
+		}
+		else if (mainGameWorld.getTracker().getPhase() == MainGameTracker.PHASE_COMBAT_TYPE){
+			font32.draw(batch, "COMBAT PHASE"
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(860));
+			font32.draw(batch, "Zombies : " + mainGameWorld.getTracker().getRemainEnemy()
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(820));
+		}
+	}
+	
+	private void scoreBar(SpriteBatch batch){
+		font32.draw(batch, "Score : " + mainGameWorld.getTracker().getScore()
+				, mainGameScreen.screenPositionX(1300), mainGameScreen.screenPositionY(860));
 	}
 	
 	private void aiMap(SpriteBatch batch){

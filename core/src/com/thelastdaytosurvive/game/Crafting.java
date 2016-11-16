@@ -30,8 +30,8 @@ public class Crafting {
 	private Texture mFenceVertiNegative;
 	
 	
-	private int currentWood = 40;
-	private int currentMetal = 100;
+	private int currentWood = 100;
+	private int currentMetal = 30;
 	private boolean isPreview = false;
 	private boolean isPlaceable = false;
 	private int previewType;

@@ -16,20 +16,22 @@ public class MainGameWorld {
 	private Enemy enemy;
 	private Map map;
 	private Crafting crafting;
+	private MainGameTracker tracker;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
 		batch = mainGameScreen.getSpriteBatch();
 		
 		map = new Map(this);
+		tracker = new MainGameTracker(this);
 		crafting = new Crafting(map);
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
-		player = new Player(mainGameScreen, weapon, map, crafting);
+		player = new Player(mainGameScreen, weapon, map, crafting, tracker);
 		
 		
-		enemy.setUp(player, map);
+		enemy.setUp(player, map, tracker);
 		
 	}
 	
@@ -40,6 +42,7 @@ public class MainGameWorld {
 		weapon.update(Player.WEAPON_SECONDARY);
 		enemy.update(delta);
 		map.update();
+		tracker.update();
 	}
 	
 	public Player getPlayer(){
@@ -68,5 +71,9 @@ public class MainGameWorld {
 	
 	public Crafting getCrafting(){
 		return crafting;
+	}
+	
+	public MainGameTracker getTracker(){
+		return tracker;
 	}
 }

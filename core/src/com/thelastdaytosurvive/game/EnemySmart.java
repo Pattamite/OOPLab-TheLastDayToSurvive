@@ -16,6 +16,7 @@ public class EnemySmart {
 	private Map map;
 	private Texture texture;
 	private BitmapFont font;
+	private MainGameTracker tracker;
 	
 	private Array<EnemySmartInfo> enemySmartInfoArray;
 	private Array<Rectangle> enemySmartRectangleArray;
@@ -31,9 +32,10 @@ public class EnemySmart {
 	
 	private boolean isShowHealth = true;
 	
-	public EnemySmart(Player player, Map map){
+	public EnemySmart(Player player, Map map,MainGameTracker tracker){
 		this.player = player;
 		this.map = map;
+		this.tracker = tracker;
 		texture = new Texture("Enemy/Smart.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
@@ -45,6 +47,7 @@ public class EnemySmart {
 	public void newEnemySmart(float xPosition, float yPosition){
 		setupInfo(xPosition, yPosition);
 		setupRectangle(xPosition, yPosition);
+		System.out.println("Spawn Smart at " + xPosition + " / " + yPosition);
 	}
 	
 	public void update(float delta){
@@ -130,9 +133,6 @@ public class EnemySmart {
 			} else {
 				smartMove(deltaTime, info, rectangle, movementRectangle, direction);
 			}
-			
-			
-			
 			
 		}
 	}
@@ -235,6 +235,7 @@ public class EnemySmart {
 				iterInfo.remove();
 				iterRectangle.remove();
 				iterMovementRectangle.remove();
+				tracker.enemyDown(Enemy.ENEMY_SMART);
 			}
 		}
 	}

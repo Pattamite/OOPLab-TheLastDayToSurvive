@@ -13,14 +13,16 @@ public class Enemy {
 	
 	private Player player;
 	private Map map;
+	private MainGameTracker tracker;
 	
 	private EnemyDumb enemyDumb;
 	private EnemySmart enemySmart;
-	private boolean isTestMode = true;
+	private boolean isTestMode = false;
 	
-	public void setUp(Player player, Map map){
+	public void setUp(Player player, Map map, MainGameTracker tracker){
 		this.player = player;
 		this.map = map;
+		this.tracker = tracker;
 		setUpEnemy();
 		if (isTestMode){
 			testCase();
@@ -55,13 +57,13 @@ public class Enemy {
 	}
 	
 	private void setUpEnemy(){
-		enemyDumb = new EnemyDumb(player, map);
-		enemySmart = new EnemySmart(player, map);
+		enemyDumb = new EnemyDumb(player, map, tracker);
+		enemySmart = new EnemySmart(player, map, tracker);
 	}
 	
 	private void testCase(){
-		newEnemy(ENEMY_DUMB, 1000, 800);
+		newEnemy(ENEMY_DUMB, 4000, 2000);
 		newEnemy(ENEMY_DUMB, 2200, 800);
-		newEnemy(ENEMY_SMART, 2200, 600);
+		newEnemy(ENEMY_SMART, 4000, 2000);
 	}
 }

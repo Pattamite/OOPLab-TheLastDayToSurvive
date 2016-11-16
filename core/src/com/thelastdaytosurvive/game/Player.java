@@ -20,6 +20,7 @@ public class Player {
 	private Weapon weapon;
 	private Map map;
 	private Crafting crafting;
+	private MainGameTracker tracker;
 	private Texture playerSheet;
 	private TextureRegion[] playerFrames;
 	private int frameCols = 2;
@@ -56,11 +57,13 @@ public class Player {
 	private int counter2;
 	private int counter3;
 	
-	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map, Crafting crafting){
+	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map
+			, Crafting crafting,MainGameTracker tracker){
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
 		this.map = map;
 		this.crafting = crafting;
+		this.tracker = tracker;
 		playerCurrentHealth = playerMaxHealth;
 		currentMode = PLAYER_COMBAT;
 		setTextureRegion();
@@ -213,13 +216,19 @@ public class Player {
 	
 	private void updateMode(){
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
-			weapon.cancleReload(WEAPON_PRIMARY);
-			if (currentMode == PLAYER_COMBAT){
+			
+			if (currentMode == PLAYER_COMBAT 
+					&& tracker.getPhase() == MainGameTracker.PHASE_PREP_TYPE){
+				weapon.cancleReload(WEAPON_PRIMARY);
 				currentMode = PLAYER_CRAFTING;
 			} else if (currentMode == PLAYER_CRAFTING){
 				crafting.canclePreview();
 				currentMode = PLAYER_COMBAT;
-			}
+			}	
+		}
+		
+		if(tracker.getPhase() == MainGameTracker.PHASE_COMBAT_TYPE){
+			currentMode = PLAYER_COMBAT;
 		}
 	}
 	
@@ -244,6 +253,7 @@ public class Player {
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 			float x = (float) (playerSprite.getX() + 27 + 30 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI));
 			float y = (float) (playerSprite.getY() + 27 + 30 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI));
+			
 			
 			weapon.pullTrigger(currentWeapon, x, y, playerSprite.getRotation() + 90);
 		} else if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
