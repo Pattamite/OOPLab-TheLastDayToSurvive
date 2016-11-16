@@ -27,10 +27,25 @@ public class MainGameHud {
 	}
 	
 	public void draw(SpriteBatch batch){
+		fenceHealth(batch);
 		healthBar(batch);
 		ammoCount(batch);
 		reloadBar(batch);
 		resourceBar(batch);
+	}
+	
+	private void fenceHealth(SpriteBatch batch){
+		for(int i = 0 ; i < Map.MAP_YNUM ; i++){
+			for(int j = 0 ; j < Map.MAP_XNUM ; j++){
+				if(mainGameWorld.getMap().getWorldMap()[i][j] == Map.MAP_WFENCE_ORIGIN_VERTICAL
+						|| mainGameWorld.getMap().getWorldMap()[i][j] == Map.MAP_MFENCE_ORIGIN_VERTICAL
+						|| mainGameWorld.getMap().getWorldMap()[i][j] == Map.MAP_WFENCE_ORIGIN_HORIZONTAL
+						|| mainGameWorld.getMap().getWorldMap()[i][j] == Map.MAP_MFENCE_ORIGIN_HORIZONTAL){
+					font32.draw(batch, "" + mainGameWorld.getMap().getFenceHealth()[i][j]
+							, mainGameWorld.getMap().xGamePosition(j), mainGameWorld.getMap().yGamePosition(i));
+				}
+			}
+		}
 	}
 	
 	private void healthBar(SpriteBatch batch){

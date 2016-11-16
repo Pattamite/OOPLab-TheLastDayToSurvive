@@ -113,8 +113,6 @@ public class EnemyDumb {
 	}
 	
 	private void updateMovement(float deltaTime){
-		
-		
 		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
 		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
 		Iterator<Rectangle> iterMovementRectangle = enemyDumbMovementRectangleArray.iterator();
@@ -124,16 +122,25 @@ public class EnemyDumb {
 			Rectangle rectangle = iterRectangle.next();
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			//Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
-			Vector3 movementInfo = map.enemyDumbMapMovement(movementRectangle,
-					calculateMovement(deltaTime, info.xPosition, info.yPosition));
+			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
+			Vector3 fenceMovementInfo;
+			if ((TimeUtils.millis() - info.lastAttackTime) > attackDelay){
+				fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, damage);
+			} else {
+				fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, 0);
+			}
 			
-			info.xPosition += movementInfo.x;
-			info.yPosition += movementInfo.y;
+			info.xPosition += fenceMovementInfo.x;
+			info.yPosition += fenceMovementInfo.y;
 			info.rotation = movementInfo.z;
-			rectangle.x += movementInfo.x;
-			rectangle.y += movementInfo.y;
-			movementRectangle.x += movementInfo.x;
-			movementRectangle.y += movementInfo.y;
+			rectangle.x += fenceMovementInfo.x;
+			rectangle.y += fenceMovementInfo.y;
+			movementRectangle.x += fenceMovementInfo.x;
+			movementRectangle.y += fenceMovementInfo.y;
+			
+			if(fenceMovementInfo.z > 0){
+				info.lastAttackTime = TimeUtils.millis();
+			}
 		}
 	}
 	

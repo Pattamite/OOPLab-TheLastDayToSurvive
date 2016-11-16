@@ -9,13 +9,15 @@ public class Crafting {
 	
 	public static final int CRAFTING_WFENCE_TYPE = 0;
 	public static final int CRAFTING_MFENCE_TYPE = 1;
+	public static final int CRAFTING_WFENCE_HEALTH = 150;
+	public static final int CRAFTING_MFENCE_HEALTH = 600;
 	
 	public static final int CREAFTING_HORIZONTAL = 0;
 	public static final int CREAFTING_VERTICAL = 1;
 	
 	public static final int CRAFTING_WFENCE_WOOD = 10;
 	public static final int CRAFTING_WFENCE_METAL = 0;
-	public static final int CRAFTING_MFENCE_WOOD = 5;
+	public static final int CRAFTING_MFENCE_WOOD = 0;
 	public static final int CRAFTING_MFENCE_METAL = 10;
 	
 	private Texture wFenceHoriPositive;
