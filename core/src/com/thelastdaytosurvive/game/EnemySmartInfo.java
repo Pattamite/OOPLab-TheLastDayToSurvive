@@ -1,6 +1,6 @@
 package com.thelastdaytosurvive.game;
 
-public class EnemyDumbInfo {
+public class EnemySmartInfo {
 	public int health;
 	public float xPosition;
 	public float yPosition;

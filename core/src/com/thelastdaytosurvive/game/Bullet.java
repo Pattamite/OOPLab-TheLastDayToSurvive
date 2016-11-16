@@ -32,8 +32,8 @@ public class Bullet {
 	}
 	
 	public void update(float delta){
-		updatePosition(delta);
 		checkCondition();
+		updatePosition(delta);
 	}
 	
 	public void draw(SpriteBatch batch){

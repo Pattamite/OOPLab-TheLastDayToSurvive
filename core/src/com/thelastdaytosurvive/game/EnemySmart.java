@@ -11,53 +11,53 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class EnemyDumb {
+public class EnemySmart {
 	private Player player;
 	private Map map;
 	private Texture texture;
 	private BitmapFont font;
 	
-	private Array<EnemyDumbInfo> enemyDumbInfoArray;
-	private Array<Rectangle> enemyDumbRectangleArray;
-	private Array<Rectangle> enemyDumbMovementRectangleArray;
+	private Array<EnemySmartInfo> enemySmartInfoArray;
+	private Array<Rectangle> enemySmartRectangleArray;
+	private Array<Rectangle> enemySmartMovementRectangleArray;
 	
-	private int maxHealth = 100;
-	private int damage = 5;
+	private int maxHealth = 200;
+	private int damage = 10;
 	private long attackDelay = 1000;
-	private float speed = 100f;
+	private float speed = 200f;
 	private float picSize = 64;
 	private float hitBoxSize = 40;
 	private float movementSize = 36;
 	
 	private boolean isShowHealth = true;
 	
-	public EnemyDumb(Player player, Map map){
+	public EnemySmart(Player player, Map map){
 		this.player = player;
 		this.map = map;
-		texture = new Texture("Enemy/Dumb.png");
+		texture = new Texture("Enemy/Smart.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
-		enemyDumbInfoArray = new Array<EnemyDumbInfo>();
-		enemyDumbRectangleArray = new Array<Rectangle>();
-		enemyDumbMovementRectangleArray = new Array<Rectangle>();
+		enemySmartInfoArray = new Array<EnemySmartInfo>();
+		enemySmartRectangleArray = new Array<Rectangle>();
+		enemySmartMovementRectangleArray = new Array<Rectangle>();
 	}
 	
-	public void newEnemyDumb(float xPosition, float yPosition){
+	public void newEnemySmart(float xPosition, float yPosition){
 		setupInfo(xPosition, yPosition);
 		setupRectangle(xPosition, yPosition);
 	}
 	
 	public void update(float delta){
-		checkAttack();
 		updateMovement(delta);
 		checkDead();
+		checkAttack();
 	}
 	
 	public void draw(SpriteBatch batch){
-		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
+		Iterator<EnemySmartInfo> iterInfo = enemySmartInfoArray.iterator();
 		
 		while (iterInfo.hasNext()){
-			EnemyDumbInfo info = iterInfo.next();
+			EnemySmartInfo info = iterInfo.next();
 			batch.draw(texture, info.xPosition, info.yPosition, texture.getWidth() / 2
 					, texture.getHeight() / 2, texture.getWidth(), texture.getHeight()
 					, 1, 1, info.rotation + 90, 0, 0, texture.getWidth(), texture.getHeight()
@@ -70,11 +70,11 @@ public class EnemyDumb {
 	}
 	
 	public void isBulletHit(BulletInfo bulletInfo, Rectangle bulletRectangle){
-		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
-		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		Iterator<EnemySmartInfo> iterInfo = enemySmartInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemySmartRectangleArray.iterator();
 		
 		while (iterInfo.hasNext() && iterRectangle.hasNext() && (bulletInfo.hitCount > 0)){
-			EnemyDumbInfo info = iterInfo.next();
+			EnemySmartInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			
 			if (rectangle.overlaps(bulletRectangle)){
@@ -85,7 +85,7 @@ public class EnemyDumb {
 	}
 	
 	private void setupInfo(float xPosition, float yPosition){
-		EnemyDumbInfo newInfo = new EnemyDumbInfo();
+		EnemySmartInfo newInfo = new EnemySmartInfo();
 		newInfo.health = maxHealth;
 		newInfo.xPosition = xPosition;
 		newInfo.yPosition = yPosition;
@@ -93,7 +93,7 @@ public class EnemyDumb {
 		newInfo.lastAttackTime = 0;
 		newInfo.isJustHitPlayer = false;
 		
-		enemyDumbInfoArray.add(newInfo);
+		enemySmartInfoArray.add(newInfo);
 	}
 	
 	private void setupRectangle(float xPosition, float yPosition){
@@ -102,27 +102,27 @@ public class EnemyDumb {
 		newRectangle.y = yPosition + (picSize / 2) - (hitBoxSize / 2);
 		newRectangle.width = hitBoxSize;
 		newRectangle.height = hitBoxSize;
-		enemyDumbRectangleArray.add(newRectangle);
+		enemySmartRectangleArray.add(newRectangle);
 		
 		Rectangle newMovementRectangle = new Rectangle();
 		newMovementRectangle.x = xPosition + (picSize / 2) - (movementSize / 2);
 		newMovementRectangle.y = yPosition + (picSize / 2) - (movementSize / 2);
 		newMovementRectangle.width = movementSize;
 		newMovementRectangle.height = movementSize;
-		enemyDumbMovementRectangleArray.add(newMovementRectangle);
+		enemySmartMovementRectangleArray.add(newMovementRectangle);
 	}
 	
 	private void updateMovement(float deltaTime){
-		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
-		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
-		Iterator<Rectangle> iterMovementRectangle = enemyDumbMovementRectangleArray.iterator();
+		Iterator<EnemySmartInfo> iterInfo = enemySmartInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemySmartRectangleArray.iterator();
+		Iterator<Rectangle> iterMovementRectangle = enemySmartMovementRectangleArray.iterator();
 		
 		while (iterInfo.hasNext()){
-			EnemyDumbInfo info = iterInfo.next();
+			EnemySmartInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			//Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
-			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition, info.isJustHitPlayer);
+			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition,  info.isJustHitPlayer);
 			Vector3 fenceMovementInfo;
 			if ((TimeUtils.millis() - info.lastAttackTime) > attackDelay){
 				fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, damage);
@@ -172,12 +172,12 @@ public class EnemyDumb {
 	}
 	
 	private void checkDead(){
-		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
-		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
-		Iterator<Rectangle> iterMovementRectangle = enemyDumbMovementRectangleArray.iterator();
+		Iterator<EnemySmartInfo> iterInfo = enemySmartInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemySmartRectangleArray.iterator();
+		Iterator<Rectangle> iterMovementRectangle = enemySmartMovementRectangleArray.iterator();
 		
 		while (iterInfo.hasNext() && iterRectangle.hasNext() && iterMovementRectangle.hasNext()){
-			EnemyDumbInfo info = iterInfo.next();
+			EnemySmartInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			
@@ -190,11 +190,11 @@ public class EnemyDumb {
 	}
 	
 	private void checkAttack(){
-		Iterator<EnemyDumbInfo> iterInfo = enemyDumbInfoArray.iterator();
-		Iterator<Rectangle> iterRectangle = enemyDumbRectangleArray.iterator();
+		Iterator<EnemySmartInfo> iterInfo = enemySmartInfoArray.iterator();
+		Iterator<Rectangle> iterRectangle = enemySmartRectangleArray.iterator();
 		
 		while (iterInfo.hasNext() && iterRectangle.hasNext()){
-			EnemyDumbInfo info = iterInfo.next();
+			EnemySmartInfo info = iterInfo.next();
 			Rectangle rectangle = iterRectangle.next();
 			
 			if(rectangle.overlaps(player.getRectangle())){

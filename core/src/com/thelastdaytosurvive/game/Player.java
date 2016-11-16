@@ -213,6 +213,7 @@ public class Player {
 	
 	private void updateMode(){
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
+			weapon.cancleReload(WEAPON_PRIMARY);
 			if (currentMode == PLAYER_COMBAT){
 				currentMode = PLAYER_CRAFTING;
 			} else if (currentMode == PLAYER_CRAFTING){

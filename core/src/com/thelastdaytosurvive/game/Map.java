@@ -214,7 +214,7 @@ public class Map {
 		
 		if(axis == 'x'){
 			mover.x += movement;
-			if(movement > 0 && ((xPosition + 1) < MAP_XNUM)){
+			if(movement > 0 && ((xPosition + 1) < MAP_XNUM) && (yPosition >= 0) && (yPosition < MAP_YNUM)){
 				ans = mover.overlaps(worldMapRectangle[yPosition][xPosition + 1]);
 				if(ans == true && isAttacked == false && damage > 0){
 					attackFence(xPosition + 1, yPosition, damage);
@@ -237,7 +237,7 @@ public class Map {
 					}
 				}
 				
-			} else if (movement < 0 && xPosition > 0){
+			} else if (movement < 0 && xPosition > 0 && (yPosition >= 0) && (yPosition < MAP_YNUM)){
 				ans = mover.overlaps(worldMapRectangle[yPosition][xPosition - 1]);
 				if(ans == true && isAttacked == false && damage > 0){
 					attackFence(xPosition - 1, yPosition , damage);
@@ -263,7 +263,7 @@ public class Map {
 			mover.x -= movement;
 		} else if(axis == 'y'){
 			mover.y += movement;
-			if(movement > 0 && (yPosition > 0)){
+			if(movement > 0 && (yPosition > 0) && (xPosition >= 0) && (xPosition < MAP_XNUM)){
 				ans = mover.overlaps(worldMapRectangle[yPosition - 1][xPosition]);
 				if(ans == true && isAttacked == false && damage > 0){
 					attackFence(xPosition, yPosition - 1, damage);
@@ -286,7 +286,7 @@ public class Map {
 					}
 				}
 				
-			} else if (movement < 0 && (yPosition + 1) < MAP_YNUM){
+			} else if (movement < 0 && (yPosition + 1) < MAP_YNUM  && (xPosition >= 0) && (xPosition < MAP_XNUM)){
 				ans = mover.overlaps(worldMapRectangle[yPosition + 1][xPosition]);
 				if(ans == true && isAttacked == false && damage > 0){
 					attackFence(xPosition, yPosition + 1, damage);

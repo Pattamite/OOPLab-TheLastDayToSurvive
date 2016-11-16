@@ -9,11 +9,13 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Enemy {
 	public static final int ENEMY_DUMB = 0;
+	public static final int ENEMY_SMART = 1;
 	
 	private Player player;
 	private Map map;
 	
 	private EnemyDumb enemyDumb;
+	private EnemySmart enemySmart;
 	private boolean isTestMode = true;
 	
 	public void setUp(Player player, Map map){
@@ -28,11 +30,13 @@ public class Enemy {
 	public void newEnemy(int type, float xPosition,float yPosition){
 		switch (type){
 			case ENEMY_DUMB : enemyDumb.newEnemyDumb(xPosition, yPosition); break;
+			case ENEMY_SMART : enemySmart.newEnemySmart(xPosition, yPosition); break;
 			default : System.out.println("Error at Enemy in newEnemy method.");
 		}
 	}
 	public void update(float delta){
 		enemyDumb.update(delta);
+		enemySmart.update(delta);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.L) && isTestMode){
 			newEnemy(ENEMY_DUMB, MathUtils.random(0, MainGameWorld.MAP_X)
@@ -42,18 +46,22 @@ public class Enemy {
 	
 	public void draw(SpriteBatch batch){
 		enemyDumb.draw(batch);
+		enemySmart.draw(batch);
 	}
 	
 	public void isBulletHit(BulletInfo bulletInfo, Rectangle rectangle){
 		enemyDumb.isBulletHit(bulletInfo, rectangle);
+		enemySmart.isBulletHit(bulletInfo, rectangle);
 	}
 	
 	private void setUpEnemy(){
 		enemyDumb = new EnemyDumb(player, map);
+		enemySmart = new EnemySmart(player, map);
 	}
 	
 	private void testCase(){
 		newEnemy(ENEMY_DUMB, 1000, 800);
 		newEnemy(ENEMY_DUMB, 2200, 800);
+		newEnemy(ENEMY_SMART, 2200, 600);
 	}
 }
