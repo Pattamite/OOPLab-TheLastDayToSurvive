@@ -166,6 +166,17 @@ public class Map {
 		}
 	}
 	
+	public char aiDirection(float xPosition, float yPosition){
+		int x = xPosition(xPosition);
+		int y = yPosition(yPosition);
+		
+		if(x >= 0 && x < MAP_XNUM && y >= 0 && y < MAP_YNUM){
+			return aiMap[y][x];
+		} else {
+			return MAP_AI_UNKNOWN;
+		}
+	}
+	
 	public int xPosition(float value){
 		return (int) (value / MAP_BLOCKSIZE);
 	}

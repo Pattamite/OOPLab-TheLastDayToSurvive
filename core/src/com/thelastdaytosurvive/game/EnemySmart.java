@@ -122,28 +122,78 @@ public class EnemySmart {
 			Rectangle rectangle = iterRectangle.next();
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			//Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition);
-			Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition,  info.isJustHitPlayer);
-			Vector3 fenceMovementInfo;
-			if ((TimeUtils.millis() - info.lastAttackTime) > attackDelay){
-				fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, damage);
+			char direction = map.aiDirection(info.xPosition + (picSize / 2)
+					, info.yPosition + (picSize / 2));
+					
+			if(direction == Map.MAP_AI_UNKNOWN || direction == Map.MAP_AI_PLAYER){
+				dumbMove(deltaTime, info, rectangle, movementRectangle);
 			} else {
-				fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, 0);
+				smartMove(deltaTime, info, rectangle, movementRectangle, direction);
 			}
 			
-			info.xPosition += fenceMovementInfo.x;
-			info.yPosition += fenceMovementInfo.y;
-			info.rotation = movementInfo.z;
-			rectangle.x += fenceMovementInfo.x;
-			rectangle.y += fenceMovementInfo.y;
-			movementRectangle.x += fenceMovementInfo.x;
-			movementRectangle.y += fenceMovementInfo.y;
-			info.isJustHitPlayer = false;
 			
-			if(fenceMovementInfo.z > 0){
-				info.lastAttackTime = TimeUtils.millis();
-			}
+			
+			
 		}
 	}
+	
+	private void dumbMove(float deltaTime, EnemySmartInfo info, Rectangle rectangle, Rectangle movementRectangle){
+		Vector3 movementInfo = calculateMovement(deltaTime, info.xPosition, info.yPosition,  info.isJustHitPlayer);
+		Vector3 fenceMovementInfo;
+		if ((TimeUtils.millis() - info.lastAttackTime) > attackDelay){
+			fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, damage);
+		} else {
+			fenceMovementInfo = map.enemyDumbMapMovement(movementRectangle, movementInfo, 0);
+		}
+		
+		info.xPosition += fenceMovementInfo.x;
+		info.yPosition += fenceMovementInfo.y;
+		info.rotation = movementInfo.z;
+		rectangle.x += fenceMovementInfo.x;
+		rectangle.y += fenceMovementInfo.y;
+		movementRectangle.x += fenceMovementInfo.x;
+		movementRectangle.y += fenceMovementInfo.y;
+		info.isJustHitPlayer = false;
+		
+		if (fenceMovementInfo.z > 0){
+			info.lastAttackTime = TimeUtils.millis();
+		}
+	}
+	
+	private void smartMove(float deltaTime, EnemySmartInfo info
+			, Rectangle rectangle, Rectangle movementRectangle, char direction){
+		float xMovement = 0;
+		float yMovement = 0;
+		float rotation = 0;
+		
+		
+		if (direction == Map.MAP_AI_DOWN){
+			yMovement = -1f;
+			rotation = 90f;
+		} else if (direction == Map.MAP_AI_UP){
+			yMovement = 1f;
+			rotation = 270f;
+		} else if (direction == Map.MAP_AI_RIGHT){
+			xMovement = 1f;
+			rotation = 180f;
+		} else if (direction == Map.MAP_AI_LEFT){
+			xMovement = -1f;
+			rotation = 0f;
+		}
+		
+		xMovement *= (speed * deltaTime); 
+		yMovement *= (speed * deltaTime);
+		
+		info.xPosition += xMovement;
+		info.yPosition += yMovement;
+		info.rotation = rotation;
+		rectangle.x += xMovement;
+		rectangle.y += yMovement;
+		movementRectangle.x += xMovement;
+		movementRectangle.y += yMovement;
+		info.isJustHitPlayer = false;
+	}
+	
 	
 	private Vector3 calculateMovement(float deltaTime, float x, float y, boolean isJustAttacked){
 		float deltaDistanceX;
