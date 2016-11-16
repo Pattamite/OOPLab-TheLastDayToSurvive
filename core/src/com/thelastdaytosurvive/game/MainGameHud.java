@@ -32,6 +32,7 @@ public class MainGameHud {
 		ammoCount(batch);
 		reloadBar(batch);
 		resourceBar(batch);
+		//aiMap(batch);
 	}
 	
 	private void fenceHealth(SpriteBatch batch){
@@ -81,5 +82,14 @@ public class MainGameHud {
 				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(80));
 		font32.draw(batch, "Metal : " + mainGameWorld.getCrafting().getCurrentMetal()
 				, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(40));
+	}
+	
+	private void aiMap(SpriteBatch batch){
+		for(int i = 0; i < Map.MAP_YNUM ; i++){
+			for(int j = 0 ; j < Map.MAP_XNUM ; j++){
+				font32.draw(batch, "" + mainGameWorld.getMap().getAIMap()[i][j]
+						, mainGameWorld.getMap().xGamePosition(j), mainGameWorld.getMap().yGamePosition(i));
+			}
+		}
 	}
 }

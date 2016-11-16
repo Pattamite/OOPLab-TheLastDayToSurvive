@@ -5,15 +5,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Queue;
 
 public class Map {
 	public static final char MAP_FREESPACE = '.';
+	
 	public static final char MAP_WFENCE_ORIGIN_VERTICAL = '^';
 	public static final char MAP_WFENCE_ORIGIN_HORIZONTAL = '>';
 	public static final char MAP_MFENCE_ORIGIN_VERTICAL = 'v';
 	public static final char MAP_MFENCE_ORIGIN_HORIZONTAL = '<';
 	public static final char MAP_TESTFENCE = 'x';
 	public static final char MAP_FENCE_BRANCE = '-';
+	
+	public static final char MAP_AI_LEFT = 'l';
+	public static final char MAP_AI_RIGHT = 'r';
+	public static final char MAP_AI_UP = 'u';
+	public static final char MAP_AI_DOWN = 'd';
+	public static final char MAP_AI_UNKNOWN = 'x';
+	public static final char MAP_AI_PLAYER = 'p';
+	public static final char MAP_AI_QUEUE = 'q';
+	
 	public static final int MAP_BLOCKSIZE = 40;
 	public static int MAP_XNUM;
 	public static int MAP_YNUM;
@@ -30,6 +41,15 @@ public class Map {
 	private char aiMap[][];
 	private Vector2 fenceOrigin[][];
 	private int fenceHealth[][];
+	private Queue<AIQueueNode> aiQueue;
+	
+	private int lastPlayerX = 0;
+	private int lastPlayerY = 0;
+	private boolean isNeedUpdateAI;
+	private int aiCount = 0;
+	
+	private int queueSize = 0;
+	private int queueSizePeak = 0;
 	
 	public Map(MainGameWorld mainGameWorld){
 		this.mainGameWorld = mainGameWorld;
@@ -51,7 +71,12 @@ public class Map {
 	}
 	
 	public void update(){
-		
+		updatePlayerPosition();
+		//System.out.println(isNeedUpdateAI);
+		if(isNeedUpdateAI){
+			updateAI();
+			isNeedUpdateAI = false;
+		}
 	}
 	
 	public void createFence(float x, float y, int type, int rotation){
@@ -63,6 +88,8 @@ public class Map {
 		} else if (rotation == Crafting.CREAFTING_VERTICAL){
 			createFenceVerti(xPosition, yPosition, type);
 		}
+		
+		isNeedUpdateAI = true;
 	}
 	
 	public void createTestFence(float x, float y){
@@ -163,6 +190,10 @@ public class Map {
 		return fenceHealth;
 	}
 	
+	public char[][] getAIMap(){
+		return aiMap;
+	}
+	
 	private void calculateMapSize(){
 		MAP_XNUM = (int) (MainGameWorld.MAP_X / MAP_BLOCKSIZE);
 		MAP_YNUM = (int) (MainGameWorld.MAP_Y / MAP_BLOCKSIZE);
@@ -173,11 +204,12 @@ public class Map {
 		aiMap = new char[MAP_YNUM][MAP_XNUM];
 		fenceOrigin = new Vector2[MAP_YNUM][MAP_XNUM];
 		fenceHealth = new int[MAP_YNUM][MAP_XNUM];
+		aiQueue = new Queue<AIQueueNode>();
 		
 		for(int i = 0 ; i < MAP_YNUM ; i++){
 			for(int j = 0 ; j < MAP_XNUM ; j++){
 				worldMap[i][j] = MAP_FREESPACE;
-				aiMap[i][j] = MAP_FREESPACE;
+				aiMap[i][j] = MAP_AI_UNKNOWN;
 				fenceHealth[i][j] = 0;
 			}
 		}
@@ -468,6 +500,99 @@ public class Map {
 		if(x + 2 < MAP_XNUM){
 			worldMap[y][x + 2] = MAP_FREESPACE;
 			disableRectangle(x + 2, y);
+		}
+	}
+	private void updatePlayerPosition(){
+		int newX = xPosition( mainGameWorld.getPlayer().getSprite().getX()  
+				+ (mainGameWorld.getPlayer().getSprite().getWidth() / 2));
+		int newY = yPosition( mainGameWorld.getPlayer().getSprite().getY() 
+				+ (mainGameWorld.getPlayer().getSprite().getHeight() / 2));
+		
+		if(newX != lastPlayerX || newY != lastPlayerY){
+			lastPlayerX = newX;
+			lastPlayerY = newY;
+			isNeedUpdateAI = true;
+		}
+		//System.out.println(newX + " / " + newY);
+	}
+	
+	private void updateAI(){
+		aiQueue.clear();
+		clearAIMap();
+		aiQueue.addLast(new AIQueueNode(lastPlayerX, lastPlayerY, MAP_AI_PLAYER));
+		queueSize = 1;
+		while(updateAINode()) {
+			
+		}
+	}
+	
+	private boolean updateAINode(){
+		//aiCount++;
+		
+		AIQueueNode node = null;
+		if(queueSize > 0){
+			node = aiQueue.removeFirst();
+			queueSize--;
+		}
+		int x = -1;
+		int y = -1;
+		char value = ' ';
+		
+		if(node != null){
+			x = node.xPosition;
+			y = node.yPosition;
+			value = node.directionValue;
+		}
+		//System.out.println("" + queueSizePeak);
+		
+		if (x >= 0 && x < MAP_XNUM  && y >= 0 && y < MAP_YNUM){
+			
+			if(aiMap[y][x] == MAP_AI_UNKNOWN || aiMap[y][x] == MAP_AI_QUEUE){
+				aiMap[y][x] = value;
+				if (x - 1 >= 0){
+					if(aiMap[y][x - 1] == MAP_AI_UNKNOWN && worldMap[y][x - 1] == MAP_FREESPACE){
+						aiQueue.addLast(new AIQueueNode(x - 1, y, MAP_AI_RIGHT));
+						aiMap[y][x - 1] = MAP_AI_QUEUE;
+						queueSize++;
+					}
+				}
+				if (x + 1 < MAP_XNUM){
+					if(aiMap[y][x + 1] == MAP_AI_UNKNOWN && worldMap[y][x + 1] == MAP_FREESPACE){
+						aiQueue.addLast(new AIQueueNode(x + 1, y, MAP_AI_LEFT));
+						aiMap[y][x + 1] = MAP_AI_QUEUE;
+						queueSize++;
+					}
+				}
+				
+				if (y - 1 >= 0){
+					if(aiMap[y - 1][x] == MAP_AI_UNKNOWN && worldMap[y - 1][x] == MAP_FREESPACE){
+						aiQueue.addLast(new AIQueueNode(x, y - 1, MAP_AI_DOWN));
+						aiMap[y - 1][x] = MAP_AI_QUEUE;
+						queueSize++;
+					}
+				}
+				if (y + 1 < MAP_YNUM){
+					if(aiMap[y + 1][x] == MAP_AI_UNKNOWN && worldMap[y + 1][x] == MAP_FREESPACE){
+						aiQueue.addLast(new AIQueueNode(x, y + 1, MAP_AI_UP));
+						aiMap[y + 1][x] = MAP_AI_QUEUE;
+						queueSize++;
+					} 
+				}
+			}
+			if(queueSize > queueSizePeak){
+				queueSizePeak = queueSize;
+			}
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private void clearAIMap(){
+		for(int i = 0; i < MAP_YNUM ; i ++){
+			for(int j = 0 ; j < MAP_XNUM ; j++){
+				aiMap[i][j] = MAP_AI_UNKNOWN;
+			}
 		}
 	}
 }
