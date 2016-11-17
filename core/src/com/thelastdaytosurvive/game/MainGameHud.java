@@ -43,7 +43,7 @@ public class MainGameHud {
 	}
 	
 	private void setUpFont(){
-		font50  = new BitmapFont(Gdx.files.internal("Font/Square50.fnt"));
+		font50 = new BitmapFont(Gdx.files.internal("Font/Square50.fnt"));
 		font32 = new BitmapFont(Gdx.files.internal("Font/Square32.fnt"));
 		font20 = new BitmapFont(Gdx.files.internal("Font/Square20.fnt"));
 		font50.setColor(Color.WHITE);

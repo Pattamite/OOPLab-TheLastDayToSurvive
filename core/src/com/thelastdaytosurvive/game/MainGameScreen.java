@@ -14,6 +14,9 @@ public class MainGameScreen extends ScreenAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	
+	private boolean isOver = false;
+	private int score = 0;
+	
 	public MainGameScreen(LastDayGame lastDayGame){
 		this.lastDayGame = lastDayGame;
 		mainGameWorld = new MainGameWorld(this);
@@ -27,18 +30,30 @@ public class MainGameScreen extends ScreenAdapter {
 	
 	@Override
 	public void render(float delta){
-		mainGameWorld.update(delta);
+		if(isOver){
+			camera.position.set(MainGameWorld.CAMERA_X / 2, MainGameWorld.CAMERA_Y / 2, 0);
+			camera.update();
+			Gdx.gl.glClearColor(1, 1, 1, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			batch.end();
+			lastDayGame.gameOver(score);
+		} else {
+			mainGameWorld.update(delta);
+			
+			cameraUpdate();
+			
+			Gdx.gl.glClearColor(1, 1, 1, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			mainGameWorldRenderer.draw(delta, batch);
+			batch.end();
+		}
+		}
 		
-		cameraUpdate();
-		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		mainGameWorldRenderer.draw(delta, batch);
-		batch.end();
-	}
 	
 	public SpriteBatch getSpriteBatch(){
 		return batch;
@@ -78,5 +93,10 @@ public class MainGameScreen extends ScreenAdapter {
 	
 	public float gamePositionY (float value){
 		return value + camera.position.y - (MainGameWorld.CAMERA_Y / 2);
+	}
+	
+	public void gameOver(int score){
+		isOver = true;
+		this.score = score;
 	}
 }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class MainGameTracker {
 	public static final int PHASE_PREP_TYPE = 0;
 	public static final int PHASE_COMBAT_TYPE = 1;
-	public static final long PAHSE_PREP_TIME = 3000;
+	public static final long PAHSE_PREP_TIME = 60000;
 	
 	private MainGameWorld mainGameWorld;
 	
@@ -26,7 +26,7 @@ public class MainGameTracker {
 	private int smartPerWave = 3;
 	private int dumbNum = 0;
 	private int smartNum = 0;
-	private int currentCombatSong = 1;
+	private int currentCombatSong = 2;
 	
 	private Music prepPhaseMusic;
 	private Music combatMusicPhase1;
@@ -50,6 +50,7 @@ public class MainGameTracker {
 		combatMusicPhase1.setVolume(combatMusicPhase1Volume);
 		combatMusicPhase2.setLooping(true);
 		combatMusicPhase2.setVolume(combatMusicPhase2Volume);
+		prepActivate();
 	}
 	
 	
@@ -98,6 +99,7 @@ public class MainGameTracker {
 			currentCombatSong = 1;
 		}
 		
+		prepPhaseMusic.play();
 		currentPhase = PHASE_PREP_TYPE;
 		prepStratedTime = TimeUtils.millis();
 	}

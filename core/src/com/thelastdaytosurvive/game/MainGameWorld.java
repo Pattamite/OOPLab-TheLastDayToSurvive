@@ -49,6 +49,7 @@ public class MainGameWorld {
 	
 	public void gameOver(){
 		tracker.stopAllSong();
+		mainGameScreen.gameOver(tracker.getScore());
 	}
 	
 	public Player getPlayer(){

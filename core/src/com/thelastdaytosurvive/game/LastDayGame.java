@@ -11,7 +11,8 @@ public class LastDayGame extends Game {
     @Override
     public void create () {
         batch = new SpriteBatch();
-        setScreen(new MainGameScreen(this));
+        //setScreen(new MainMenu(this));
+        setScreen(new MainMenu(this));
     }
  
     @Override
@@ -22,5 +23,30 @@ public class LastDayGame extends Game {
     @Override
     public void dispose () {
         batch.dispose();
+    }
+    
+    public void goToHowToPlay(){
+    	setScreen(new HowToPlay(this));
+    }
+    
+    public void goToMainGame(){
+    	setScreen(new MainGameScreen(this));
+    }
+    
+    public void goToMainMenu(){
+    	setScreen(new MainMenu(this));
+    }
+    
+    public void gameOver(int score){
+    	if(highScore < score){
+    		highScore = score;
+    		setScreen(new GameOverScreen(this, score, true));
+    	} else {
+    		setScreen(new GameOverScreen(this, score, false));
+    	}
+    }
+    
+    public int getHghScore(){
+    	return highScore;
     }
 }
