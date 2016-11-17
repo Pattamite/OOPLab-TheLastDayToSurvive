@@ -1,5 +1,7 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -24,12 +26,30 @@ public class MainGameTracker {
 	private int smartPerWave = 3;
 	private int dumbNum = 0;
 	private int smartNum = 0;
+	private int currentCombatSong = 1;
+	
+	private Music prepPhaseMusic;
+	private Music combatMusicPhase1;
+	private Music combatMusicPhase2;
+	private float prepPhaseMusicVolume = 1f;
+	private float combatMusicPhase1Volume = 1f;
+	private float combatMusicPhase2Volume = 1f;
 	
 	public MainGameTracker(MainGameWorld mainGameWorld){
 		this.mainGameWorld = mainGameWorld;
 		
 		currentPhase = PHASE_PREP_TYPE;
 		prepStratedTime = TimeUtils.millis();
+		prepPhaseMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/PrepPhase.wav"));
+		combatMusicPhase1 = Gdx.audio.newMusic(Gdx.files.internal("Sound/CombatPhase1.wav"));
+		combatMusicPhase2 = Gdx.audio.newMusic(Gdx.files.internal("Sound/CombatPhase2.wav"));
+		
+		prepPhaseMusic.setLooping(true);
+		prepPhaseMusic.setVolume(prepPhaseMusicVolume);
+		combatMusicPhase1.setLooping(true);
+		combatMusicPhase1.setVolume(combatMusicPhase1Volume);
+		combatMusicPhase2.setLooping(true);
+		combatMusicPhase2.setVolume(combatMusicPhase2Volume);
 	}
 	
 	
@@ -54,6 +74,14 @@ public class MainGameTracker {
 	}
 	
 	public void combatActivate(){
+		prepPhaseMusic.stop();
+		
+		if(currentCombatSong == 1){
+			combatMusicPhase1.play();
+		} else {
+			combatMusicPhase2.play();
+		}
+		
 		currentPhase = PHASE_COMBAT_TYPE;
 		currentWave++;
 		dumbNum = (currentWave * dumbPerWave) + (int) MathUtils.random(currentWave * 1, currentWave * 2);
@@ -62,6 +90,14 @@ public class MainGameTracker {
 	}
 	
 	public void prepActivate(){
+		if(currentCombatSong == 1){
+			combatMusicPhase1.stop();
+			currentCombatSong = 2;
+		} else {
+			combatMusicPhase2.stop();
+			currentCombatSong = 1;
+		}
+		
 		currentPhase = PHASE_PREP_TYPE;
 		prepStratedTime = TimeUtils.millis();
 	}
