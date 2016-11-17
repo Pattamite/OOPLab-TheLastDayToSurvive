@@ -1,5 +1,7 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -42,6 +44,14 @@ public class Map {
 	private Vector2 fenceOrigin[][];
 	private int fenceHealth[][];
 	private Queue<AIQueueNode> aiQueue;
+	private Sound woodDeploy;
+	private Sound metalDeploy;
+	private Sound woodDestroy;
+	private Sound metalDestroy;
+	private float woodDeployVolume = 1f;
+	private float metalDeployVolume = 1f;
+	private float woodDestroyVolume = 1f;
+	private float metalDestroyVolume = 1f;
 	
 	private int lastPlayerX = 0;
 	private int lastPlayerY = 0;
@@ -60,10 +70,10 @@ public class Map {
 		setUpRectangle();
 		setUpTexture();
 		
-		createFence(900, 900, Crafting.CRAFTING_MFENCE_TYPE, Crafting.CREAFTING_HORIZONTAL);
-		createFence(900, 700, Crafting.CRAFTING_WFENCE_TYPE, Crafting.CREAFTING_HORIZONTAL);
-		createFence(1100, 1100, Crafting.CRAFTING_MFENCE_TYPE, Crafting.CREAFTING_VERTICAL);
-		createFence(1300, 900, Crafting.CRAFTING_WFENCE_TYPE, Crafting.CREAFTING_VERTICAL);
+		woodDeploy = Gdx.audio.newSound(Gdx.files.internal("Sound/WoodFenceDeploy.wav"));
+		metalDeploy = Gdx.audio.newSound(Gdx.files.internal("Sound/MetalFenceDeploy.wav"));
+		woodDestroy = Gdx.audio.newSound(Gdx.files.internal("Sound/WoodFenceDestroy.wav"));
+		metalDestroy = Gdx.audio.newSound(Gdx.files.internal("Sound/MetalFenceDestroy.wav"));
 	}
 	
 	public void update(){
@@ -353,11 +363,13 @@ public class Map {
 	
 	private void createFenceVerti(int x, int y, int type){
 		if (type == Crafting.CRAFTING_WFENCE_TYPE){
+			woodDeploy.play(woodDeployVolume);
 			worldMap[y][x] = MAP_WFENCE_ORIGIN_VERTICAL;
 			fenceHealth[y][x] = Crafting.CRAFTING_WFENCE_HEALTH;
 			enableRectangle(x, y);
 			
 		} else if (type == Crafting.CRAFTING_MFENCE_TYPE){
+			metalDeploy.play(metalDeployVolume);
 			worldMap[y][x] = MAP_MFENCE_ORIGIN_VERTICAL;
 			fenceHealth[y][x] = Crafting.CRAFTING_MFENCE_HEALTH;
 			enableRectangle(x, y);
@@ -387,10 +399,12 @@ public class Map {
 	
 	private void createFenceHori(int x, int y, int type){
 		if (type == Crafting.CRAFTING_WFENCE_TYPE){
+			woodDeploy.play(woodDeployVolume);
 			worldMap[y][x] = MAP_WFENCE_ORIGIN_HORIZONTAL;
 			fenceHealth[y][x] = Crafting.CRAFTING_WFENCE_HEALTH;
 			enableRectangle(x, y);
 		} else if (type == Crafting.CRAFTING_MFENCE_TYPE){
+			metalDeploy.play(metalDeployVolume);
 			worldMap[y][x] = MAP_MFENCE_ORIGIN_HORIZONTAL;
 			fenceHealth[y][x] = Crafting.CRAFTING_MFENCE_HEALTH;
 			enableRectangle(x, y);
@@ -449,6 +463,13 @@ public class Map {
 		
 		fenceHealth[targetY][targetX] -= damage;
 		if(fenceHealth[targetY][targetX] <= 0){
+			if(worldMap[y][x] == MAP_WFENCE_ORIGIN_VERTICAL 
+					|| worldMap[y][x] == MAP_WFENCE_ORIGIN_HORIZONTAL){
+				woodDestroy.play(woodDestroyVolume);
+			} else if(worldMap[y][x] == MAP_MFENCE_ORIGIN_VERTICAL 
+					|| worldMap[y][x] == MAP_MFENCE_ORIGIN_HORIZONTAL){
+				metalDestroy.play(metalDestroyVolume);
+			}
 			fenceHealth[targetY][targetX] = 0;
 			destroyFence(targetX, targetY);
 		}
