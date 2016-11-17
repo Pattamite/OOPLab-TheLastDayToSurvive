@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class MainGameTracker {
 	public static final int PHASE_PREP_TYPE = 0;
 	public static final int PHASE_COMBAT_TYPE = 1;
-	public static final long PAHSE_PREP_TIME = 3000;
+	public static final long PAHSE_PREP_TIME = 60000;
 	
 	private MainGameWorld mainGameWorld;
 	
@@ -56,8 +56,8 @@ public class MainGameTracker {
 	public void combatActivate(){
 		currentPhase = PHASE_COMBAT_TYPE;
 		currentWave++;
-		dumbNum = (currentWave * dumbPerWave) + (int) MathUtils.random(currentWave * 2, currentWave * 3);
-		smartNum = (currentWave * smartPerWave) + (int) MathUtils.random(currentWave * 1, currentWave * 2);
+		dumbNum = (currentWave * dumbPerWave) + (int) MathUtils.random(currentWave * 1, currentWave * 2);
+		smartNum = (currentWave * smartPerWave) + (int) MathUtils.random(0, currentWave * 1);
 		remainEnemy = dumbNum + smartNum;
 	}
 	

@@ -27,7 +27,7 @@ public class EnemyDumb {
 	private int damage = 5;
 	private long attackDelay = 1000;
 	private float speed = 100f;
-	private float picSize = 64;
+	private float picSize = 76;
 	private float hitBoxSize = 40;
 	private float movementSize = 36;
 	
@@ -38,7 +38,7 @@ public class EnemyDumb {
 		this.map = map;
 		this.tracker = tracker;
 		this.itemDropper = itemDropper;
-		texture = new Texture("Enemy/Dumb.png");
+		texture = new Texture("Enemy/DumbReal.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
 		enemyDumbInfoArray = new Array<EnemyDumbInfo>();

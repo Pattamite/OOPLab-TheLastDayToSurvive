@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainGameHud {
+	private BitmapFont font50;
 	private BitmapFont font32;
-	private BitmapFont font14;
+	private BitmapFont font20;
 	private Texture reloadBarTexture;
 	private Texture progressTexture;
 	
@@ -16,8 +17,9 @@ public class MainGameHud {
 	private MainGameWorld mainGameWorld;
 	
 	public MainGameHud(MainGameWorld mainGameWorld, MainGameScreen mainGameScreen){
-		font32 = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
-		font14 = new BitmapFont(Gdx.files.internal("Font/Cloud14.fnt"));
+		font50  = new BitmapFont(Gdx.files.internal("Font/Square50.fnt"));
+		font32 = new BitmapFont(Gdx.files.internal("Font/Square32.fnt"));
+		font20 = new BitmapFont(Gdx.files.internal("Font/Square20.fnt"));
 		reloadBarTexture = new Texture(Gdx.files.internal("ReloadBar/ReloadBar.png"));
 		progressTexture = new Texture(Gdx.files.internal("ReloadBar/Progress.png"));
 		
@@ -60,8 +62,13 @@ public class MainGameHud {
 		int currentAmmo = mainGameWorld.getPlayer().getAmmoCount();
 		int pocketAmmo = mainGameWorld.getPlayer().getPocketCount();
 		
-		font32.draw(batch, currentAmmo + " / " + pocketAmmo, mainGameScreen.screenPositionX(1480)
+		font50.draw(batch, currentAmmo + "", mainGameScreen.screenPositionX(1400)
 					, mainGameScreen.screenPositionY(40));
+		if (pocketAmmo == -1) {
+			font32.draw(batch, "/ Inf", mainGameScreen.screenPositionX(1470), mainGameScreen.screenPositionY(30));
+		} else {
+			font32.draw(batch, "/ " + pocketAmmo, mainGameScreen.screenPositionX(1470), mainGameScreen.screenPositionY(30));
+		}
 	}
 	
 	private void reloadBar(SpriteBatch batch){
@@ -73,9 +80,9 @@ public class MainGameHud {
 			batch.draw(reloadBarTexture, x, y);
 			batch.draw(progressTexture, x + 2, y + 2, value, 4);
 		} else if (mainGameWorld.getPlayer().getAmmoCount() <= 0){
-			float x = mainGameWorld.getPlayer().getSprite().getX() - 20;
-			float y = mainGameWorld.getPlayer().getSprite().getY() - 20;
-			font32.draw(batch, "Reload", x, y);
+			float x = mainGameWorld.getPlayer().getSprite().getX() - 4;
+			float y = mainGameWorld.getPlayer().getSprite().getY() - 10;
+			font20.draw(batch, "Reload", x, y);
 		}	
 	}
 	
@@ -89,21 +96,21 @@ public class MainGameHud {
 	private void phaseBar(SpriteBatch batch){
 		if (mainGameWorld.getTracker().getPhase() == MainGameTracker.PHASE_PREP_TYPE){
 			font32.draw(batch, "PREP PHASE"
-					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(860));
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(880));
 			font32.draw(batch, "Time : " + mainGameWorld.getTracker().getPrepTime()
-					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(820));
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(840));
 		}
 		else if (mainGameWorld.getTracker().getPhase() == MainGameTracker.PHASE_COMBAT_TYPE){
 			font32.draw(batch, "COMBAT PHASE"
-					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(860));
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(880));
 			font32.draw(batch, "Zombies : " + mainGameWorld.getTracker().getRemainEnemy()
-					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(820));
+					, mainGameScreen.screenPositionX(20), mainGameScreen.screenPositionY(840));
 		}
 	}
 	
 	private void scoreBar(SpriteBatch batch){
 		font32.draw(batch, "Score : " + mainGameWorld.getTracker().getScore()
-				, mainGameScreen.screenPositionX(1300), mainGameScreen.screenPositionY(860));
+				, mainGameScreen.screenPositionX(1250), mainGameScreen.screenPositionY(880));
 	}
 	
 	private void aiMap(SpriteBatch batch){

@@ -15,7 +15,7 @@ public class MainGameWorldRenderer {
 		this.mainGameWorld = mainGameWorld;
 		this.mainGameHud = new MainGameHud(mainGameWorld, mainGameScreen);
 		
-		backgroundTexture = new Texture("Background/background.png");
+		backgroundTexture = new Texture("Background/background20.png");
 	}
 	
 	public void draw(float delta, SpriteBatch batch){

@@ -15,8 +15,8 @@ public class Bullet {
 	private Enemy enemy;
 	
 	private float speedType[] = {3000, 2000};
-	private float picSizeType[] = {12, 12};
-	private float hitBoxSizeType[] = {12, 12};
+	private float picSizeType[] = {27, 27};
+	private float hitBoxSizeType[] = {18, 23};
 	private int hitCount[] = {1, 1};
 	
 	public Bullet(Enemy enemy){
@@ -47,8 +47,8 @@ public class Bullet {
 	
 	private void setUpTexture(){
 		bulletTexture = new Texture[2];
-		bulletTexture[Weapon.ASSAULT_RIFLE] = new Texture("Bullet/laserBlue03.png");
-		bulletTexture[Weapon.NINEMM_PISTOL] = new Texture("Bullet/laserRed03.png");
+		bulletTexture[Weapon.ASSAULT_RIFLE] = new Texture("Bullet/assaultRifle.png");
+		bulletTexture[Weapon.NINEMM_PISTOL] = new Texture("Bullet/9mm.png");
 	}
 	
 	private void setUpInfo(int type, float xPosition, float yPosition, float rotation){

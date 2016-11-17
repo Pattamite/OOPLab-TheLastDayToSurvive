@@ -36,11 +36,11 @@ public class Player {
 	private float playerSpeed = 160f;
 	private float sqrt2 = 1.41421356237f;
 	private float minPositionX = 0;
-	private float maxPositionX = MainGameWorld.MAP_X - 64;
+	private float maxPositionX = MainGameWorld.MAP_X - 76;
 	private float minPositionY = 0;
-	private float maxPositionY = MainGameWorld.MAP_Y - 64;
+	private float maxPositionY = MainGameWorld.MAP_Y - 76;
 	private float hitboxSize = 46;
-	private float movementRectangleSize = 36;
+	private float movementRectangleSize = 34;
 	private float craftingXPosition;
 	private float craftingYPosition;
 	private boolean isCraftable;
@@ -135,7 +135,7 @@ public class Player {
 	}
 	
 	private void setTextureRegion(){
-		playerSheet = new Texture("Player/Player.png");
+		playerSheet = new Texture("Player/PlayerReal.png");
 		TextureRegion[][] tmp = TextureRegion.split(playerSheet, playerSheet.getWidth()/frameCols
 								, playerSheet.getHeight()/frameRows);
 		playerFrames = new TextureRegion[frameRows * frameCols];
@@ -266,8 +266,8 @@ public class Player {
 	private void updateAttack(){
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			float x = (float) (playerSprite.getX() + 27 + 30 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI));
-			float y = (float) (playerSprite.getY() + 27 + 30 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI));
+			float x = (float) (playerSprite.getX() + 26 + (20 * Math.cos((playerSprite.getRotation() + 90) / 180 * Math.PI)));
+			float y = (float) (playerSprite.getY() + 26 + (20 * Math.sin((playerSprite.getRotation() + 90) / 180 * Math.PI)));
 			
 			
 			weapon.pullTrigger(currentWeapon, x, y, playerSprite.getRotation() + 90);
