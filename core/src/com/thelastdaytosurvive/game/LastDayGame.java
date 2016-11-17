@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class LastDayGame extends Game {
+	private int highScore = 0;
+	
 	public SpriteBatch batch;
 	 
     @Override

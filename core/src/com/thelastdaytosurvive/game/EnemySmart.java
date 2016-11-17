@@ -15,6 +15,8 @@ public class EnemySmart {
 	private Player player;
 	private Map map;
 	private Texture texture;
+	private Texture healthBarTexture;
+	private Texture healthTexture;
 	private BitmapFont font;
 	private MainGameTracker tracker;
 	private ItemDropper itemDropper;
@@ -23,7 +25,7 @@ public class EnemySmart {
 	private Array<Rectangle> enemySmartRectangleArray;
 	private Array<Rectangle> enemySmartMovementRectangleArray;
 	
-	private int maxHealth = 200;
+	private int maxHealth = 150;
 	private int damage = 10;
 	private long attackDelay = 1000;
 	private float speed = 200f;
@@ -39,6 +41,8 @@ public class EnemySmart {
 		this.tracker = tracker;
 		this.itemDropper = itemDropper;
 		texture = new Texture("Enemy/SmartReal.png");
+		healthBarTexture = new Texture("FenceHealthBar/Bar.png");
+		healthTexture = new Texture("FenceHealthBar/EnemyHealth.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
 		enemySmartInfoArray = new Array<EnemySmartInfo>();
@@ -69,7 +73,9 @@ public class EnemySmart {
 					, false, false);
 			
 			if (isShowHealth){
-				font.draw(batch, "" + info.health, info.xPosition, info.yPosition - 10);
+				batch.draw(healthBarTexture, info.xPosition, info.yPosition - 10);
+				batch.draw(healthTexture, info.xPosition + 2, info.yPosition - 8
+						, (float) info.health / (float) maxHealth * 50f, 4);
 			}
 		}
 	}

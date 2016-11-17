@@ -19,6 +19,7 @@ public class Player {
 	public static int PLAYER_CRAFTING = 1;
 	
 	private MainGameScreen mainGameScreen;
+	private MainGameWorld mainGameWorld;
 	private Weapon weapon;
 	private Map map;
 	private Crafting crafting;
@@ -62,12 +63,13 @@ public class Player {
 	private int counter3;
 	
 	public Player(MainGameScreen mainGameScreen, Weapon weapon, Map map
-			, Crafting crafting,MainGameTracker tracker){
+			, Crafting crafting,MainGameTracker tracker, MainGameWorld mainGameWorld){
 		this.mainGameScreen = mainGameScreen;
 		this.weapon = weapon;
 		this.map = map;
 		this.crafting = crafting;
 		this.tracker = tracker;
+		this.mainGameWorld = mainGameWorld;
 		playerCurrentHealth = playerMaxHealth;
 		currentMode = PLAYER_COMBAT;
 		setTextureRegion();
@@ -121,10 +123,9 @@ public class Player {
 	public void getHit(int value){
 		playerCurrentHealth -= value;
 		getHitSound.play(getHitSoundVolume);
-		//playHitSound
 		if(playerCurrentHealth < 0){
 			playerCurrentHealth = 0;
-			//gameOver();
+			mainGameWorld.gameOver();
 		}
 	}
 	

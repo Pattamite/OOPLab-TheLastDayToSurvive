@@ -29,7 +29,7 @@ public class MainGameWorld {
 		enemy = new Enemy();
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
-		player = new Player(mainGameScreen, weapon, map, crafting, tracker);
+		player = new Player(mainGameScreen, weapon, map, crafting, tracker, this);
 		itemDropper = new ItemDropper(this);
 		
 		enemy.setUp(player, map, tracker, itemDropper);
@@ -45,6 +45,10 @@ public class MainGameWorld {
 		map.update();
 		tracker.update();
 		itemDropper.update();
+	}
+	
+	public void gameOver(){
+		tracker.stopAllSong();
 	}
 	
 	public Player getPlayer(){

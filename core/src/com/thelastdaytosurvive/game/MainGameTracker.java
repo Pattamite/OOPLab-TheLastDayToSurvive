@@ -102,6 +102,12 @@ public class MainGameTracker {
 		prepStratedTime = TimeUtils.millis();
 	}
 	
+	public void stopAllSong(){
+		prepPhaseMusic.stop();
+		combatMusicPhase1.stop();
+		combatMusicPhase2.stop();
+	}
+	
 	public int getPhase(){
 		return currentPhase;
 	}

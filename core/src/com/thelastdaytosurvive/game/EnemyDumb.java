@@ -15,6 +15,8 @@ public class EnemyDumb {
 	private Player player;
 	private Map map;
 	private Texture texture;
+	private Texture healthBarTexture;
+	private Texture healthTexture;
 	private BitmapFont font;
 	private MainGameTracker tracker;
 	private ItemDropper itemDropper;
@@ -39,6 +41,8 @@ public class EnemyDumb {
 		this.tracker = tracker;
 		this.itemDropper = itemDropper;
 		texture = new Texture("Enemy/DumbReal.png");
+		healthBarTexture = new Texture("FenceHealthBar/Bar.png");
+		healthTexture = new Texture("FenceHealthBar/EnemyHealth.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
 		enemyDumbInfoArray = new Array<EnemyDumbInfo>();
@@ -69,7 +73,9 @@ public class EnemyDumb {
 					, false, false);
 			
 			if (isShowHealth){
-				font.draw(batch, "" + info.health, info.xPosition, info.yPosition - 10);
+				batch.draw(healthBarTexture, info.xPosition, info.yPosition - 10);
+				batch.draw(healthTexture, info.xPosition + 2, info.yPosition - 8
+						, (float) info.health / (float) maxHealth * 50f, 4);
 			}
 		}
 	}
