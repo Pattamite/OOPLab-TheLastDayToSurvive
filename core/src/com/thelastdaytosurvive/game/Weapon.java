@@ -32,6 +32,7 @@ public class Weapon {
 	
 	public void releaseTrigger(int type){
 		switch(type){
+		case ASSAULT_RIFLE : assaultRifle.releaseTrigger(); break;
 			case NINEMM_PISTOL : nineMmPistol.releaseTrigger(); break;
 			default : break;
 		}

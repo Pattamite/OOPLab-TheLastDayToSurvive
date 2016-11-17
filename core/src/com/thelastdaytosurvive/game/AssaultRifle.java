@@ -1,5 +1,7 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class AssaultRifle {
@@ -16,6 +18,14 @@ public class AssaultRifle {
 	private long lastReloadTime;
 	private long lastShotTime;
 	private boolean isReloading;
+	private boolean isReady = true;
+	
+	private Sound fireSound;
+	private Sound emptySound;
+	private Sound reloadSound;
+	private float fireSoundVolume = 1;
+	private float emptySoundVolume = 1;
+	private float reloadSoundVolume = 1;
 	
 	public AssaultRifle(Bullet bullet){
 		this.bullet = bullet;
@@ -25,6 +35,10 @@ public class AssaultRifle {
 		isReloading = false;
 		lastReloadTime = TimeUtils.millis();
 		lastShotTime = TimeUtils.millis();
+		
+		fireSound = Gdx.audio.newSound(Gdx.files.internal("Sound/AssaultRifle.wav"));
+		emptySound = Gdx.audio.newSound(Gdx.files.internal("Sound/EmptyShot.wav"));
+		reloadSound = Gdx.audio.newSound(Gdx.files.internal("Sound/AssaultRifleReload.wav"));
 	}
 	
 	public void update(){
@@ -32,17 +46,26 @@ public class AssaultRifle {
 	}
 	
 	public void pullTrigger(float x, float y, float rotation){
-		if (!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
+		if (!isReloading && (currentAmmo <= 0) && isReady){
+			emptySound.play(emptySoundVolume);
+			isReady = false;
+		} else if (!isReloading && (currentAmmo > 0) && ((TimeUtils.millis() - lastShotTime) >= FIRERATE)){
 			bullet.newBullet(Weapon.ASSAULT_RIFLE, x, y, rotation);
 			currentAmmo--;
 			lastShotTime = TimeUtils.millis();
+			fireSound.play(fireSoundVolume);
 		}
+	}
+	
+	public void releaseTrigger(){
+		isReady = true;
 	}
 	
 	public void reload(){
 		if (!isReloading && (pocketAmmo > 0) && (currentAmmo != (MAG_CAPACITY + 1))){
 			isReloading = true;
 			lastReloadTime = TimeUtils.millis();
+			reloadSound.play(reloadSoundVolume);
 		}
 	}
 	

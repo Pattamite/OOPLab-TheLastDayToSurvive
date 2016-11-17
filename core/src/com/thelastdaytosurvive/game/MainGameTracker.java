@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class MainGameTracker {
 	public static final int PHASE_PREP_TYPE = 0;
 	public static final int PHASE_COMBAT_TYPE = 1;
-	public static final long PAHSE_PREP_TIME = 60000;
+	public static final long PAHSE_PREP_TIME = 3000;
 	
 	private MainGameWorld mainGameWorld;
 	

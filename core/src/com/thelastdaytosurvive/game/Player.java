@@ -1,7 +1,9 @@
 package com.thelastdaytosurvive.game;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,6 +32,8 @@ public class Player {
 	private Sprite playerSprite;
 	private Rectangle playerRectangle;
 	private Rectangle playerMovementRectangle;
+	private Sound getHitSound;
+	private float getHitSoundVolume = 1;
 	
 	private int playerMaxHealth = 100;
 	private int playerCurrentHealth;
@@ -69,6 +73,7 @@ public class Player {
 		setTextureRegion();
 		setUpSprite();
 		setUpRectangle();
+		getHitSound = Gdx.audio.newSound(Gdx.files.internal("Sound/PlayerHit.wav"));
 	}
 	
 	public void update(){
@@ -115,6 +120,7 @@ public class Player {
 	
 	public void getHit(int value){
 		playerCurrentHealth -= value;
+		getHitSound.play(getHitSoundVolume);
 		//playHitSound
 		if(playerCurrentHealth < 0){
 			playerCurrentHealth = 0;
