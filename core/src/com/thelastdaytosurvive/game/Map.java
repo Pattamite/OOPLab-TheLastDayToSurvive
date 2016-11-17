@@ -60,10 +60,6 @@ public class Map {
 		setUpRectangle();
 		setUpTexture();
 		
-		createTestFence(480,480);
-		createTestFence(440,480);
-		createTestFence(480,440);
-		createTestFence(480,360);
 		createFence(900, 900, Crafting.CRAFTING_MFENCE_TYPE, Crafting.CREAFTING_HORIZONTAL);
 		createFence(900, 700, Crafting.CRAFTING_WFENCE_TYPE, Crafting.CREAFTING_HORIZONTAL);
 		createFence(1100, 1100, Crafting.CRAFTING_MFENCE_TYPE, Crafting.CREAFTING_VERTICAL);

@@ -53,12 +53,12 @@ public class Weapon {
 		}
 	}
 	
-	public void grabOneMag(){
-		
+	public boolean grabOneMag(){
+		return assaultRifle.grabOneMag();
 	}
 	
-	public void grabFullMag(){
-		
+	public boolean grabFullMag(){
+		return assaultRifle.grabFullMag();
 	}
 	
 	public int getAmmoCount(int type){

@@ -17,6 +17,7 @@ public class MainGameWorld {
 	private Map map;
 	private Crafting crafting;
 	private MainGameTracker tracker;
+	private ItemDropper itemDropper;
 	
 	public MainGameWorld(MainGameScreen mainGameScreen){
 		this.mainGameScreen = mainGameScreen;
@@ -29,9 +30,9 @@ public class MainGameWorld {
 		bullet = new Bullet(enemy);
 		weapon = new Weapon(bullet);
 		player = new Player(mainGameScreen, weapon, map, crafting, tracker);
+		itemDropper = new ItemDropper(this);
 		
-		
-		enemy.setUp(player, map, tracker);
+		enemy.setUp(player, map, tracker, itemDropper);
 		
 	}
 	
@@ -43,6 +44,7 @@ public class MainGameWorld {
 		enemy.update(delta);
 		map.update();
 		tracker.update();
+		itemDropper.update();
 	}
 	
 	public Player getPlayer(){
@@ -75,5 +77,9 @@ public class MainGameWorld {
 	
 	public MainGameTracker getTracker(){
 		return tracker;
+	}
+	
+	public ItemDropper getItemdropper(){
+		return itemDropper;
 	}
 }

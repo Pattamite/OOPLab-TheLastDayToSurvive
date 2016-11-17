@@ -66,6 +66,27 @@ public class AssaultRifle {
 		return isReloading;
 	}
 	
+	public boolean grabOneMag(){
+		if(pocketAmmo < (MAG_CAPACITY * MAG_POCKET)){
+			pocketAmmo += MAG_CAPACITY;
+			if(pocketAmmo > (MAG_CAPACITY * MAG_POCKET)){
+				pocketAmmo = MAG_CAPACITY * MAG_POCKET;
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean grabFullMag(){
+		if(pocketAmmo < (MAG_CAPACITY * MAG_POCKET)){
+			pocketAmmo = MAG_CAPACITY * MAG_POCKET;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	private void checkReload(){
 		if (isReloading && ((TimeUtils.millis() - lastReloadTime) >= RELOAD_TIME) ){
 			if( currentAmmo <= 0){

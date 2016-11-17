@@ -17,6 +17,7 @@ public class EnemyDumb {
 	private Texture texture;
 	private BitmapFont font;
 	private MainGameTracker tracker;
+	private ItemDropper itemDropper;
 	
 	private Array<EnemyDumbInfo> enemyDumbInfoArray;
 	private Array<Rectangle> enemyDumbRectangleArray;
@@ -32,10 +33,11 @@ public class EnemyDumb {
 	
 	private boolean isShowHealth = true;
 	
-	public EnemyDumb(Player player, Map map,MainGameTracker tracker){
+	public EnemyDumb(Player player, Map map,MainGameTracker tracker, ItemDropper itemDropper){
 		this.player = player;
 		this.map = map;
 		this.tracker = tracker;
+		this.itemDropper = itemDropper;
 		texture = new Texture("Enemy/Dumb.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
@@ -185,10 +187,12 @@ public class EnemyDumb {
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			
 			if (info.health <= 0){
+				itemDropper.dropItem(Enemy.ENEMY_DUMB, info.xPosition, info.yPosition);
+				tracker.enemyDown(Enemy.ENEMY_DUMB);
 				iterInfo.remove();
 				iterRectangle.remove();
 				iterMovementRectangle.remove();
-				tracker.enemyDown(Enemy.ENEMY_DUMB);
+				
 			}
 		}
 	}

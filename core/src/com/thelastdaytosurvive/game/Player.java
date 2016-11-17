@@ -115,8 +115,22 @@ public class Player {
 	
 	public void getHit(int value){
 		playerCurrentHealth -= value;
+		//playHitSound
 		if(playerCurrentHealth < 0){
 			playerCurrentHealth = 0;
+			//gameOver();
+		}
+	}
+	
+	public boolean heal(int value){
+		if (playerCurrentHealth < playerMaxHealth){
+			playerCurrentHealth += value;
+			if (playerCurrentHealth > playerMaxHealth){
+				playerCurrentHealth = playerMaxHealth;
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -228,6 +242,7 @@ public class Player {
 		}
 		
 		if(tracker.getPhase() == MainGameTracker.PHASE_COMBAT_TYPE){
+			crafting.canclePreview();
 			currentMode = PLAYER_COMBAT;
 		}
 	}

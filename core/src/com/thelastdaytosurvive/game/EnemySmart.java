@@ -17,6 +17,7 @@ public class EnemySmart {
 	private Texture texture;
 	private BitmapFont font;
 	private MainGameTracker tracker;
+	private ItemDropper itemDropper;
 	
 	private Array<EnemySmartInfo> enemySmartInfoArray;
 	private Array<Rectangle> enemySmartRectangleArray;
@@ -32,10 +33,11 @@ public class EnemySmart {
 	
 	private boolean isShowHealth = true;
 	
-	public EnemySmart(Player player, Map map,MainGameTracker tracker){
+	public EnemySmart(Player player, Map map,MainGameTracker tracker, ItemDropper itemDropper){
 		this.player = player;
 		this.map = map;
 		this.tracker = tracker;
+		this.itemDropper = itemDropper;
 		texture = new Texture("Enemy/Smart.png");
 		font = new BitmapFont(Gdx.files.internal("Font/Cloud32.fnt"));
 		
@@ -232,10 +234,12 @@ public class EnemySmart {
 			Rectangle movementRectangle = iterMovementRectangle.next();
 			
 			if (info.health <= 0){
+				itemDropper.dropItem(Enemy.ENEMY_SMART, info.xPosition, info.yPosition);
+				tracker.enemyDown(Enemy.ENEMY_SMART);
 				iterInfo.remove();
 				iterRectangle.remove();
 				iterMovementRectangle.remove();
-				tracker.enemyDown(Enemy.ENEMY_SMART);
+				
 			}
 		}
 	}
