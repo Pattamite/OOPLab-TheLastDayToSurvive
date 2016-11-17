@@ -20,7 +20,7 @@ public class NineMmPistol {
 	private Sound fireSound;
 	private Sound emptySound;
 	private Sound reloadSound;
-	private float fireSoundVolume = 1;
+	private float fireSoundVolume = 0.3f;
 	private float emptySoundVolume = 1;
 	private float reloadSoundVolume = 1;
 	

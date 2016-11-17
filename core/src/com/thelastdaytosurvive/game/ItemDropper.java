@@ -2,6 +2,8 @@ package com.thelastdaytosurvive.game;
 
 import java.util.Iterator;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -27,6 +29,8 @@ public class ItemDropper {
 	private Texture fullMagTexture;
 	private Texture woodTexture;
 	private Texture metalTexture;
+	private Sound[] pickUpSound;
+	private float[] pickUpSoundVolune = {1f, 1f, 1f, 1f, 1f};
 	
 	private Array<Rectangle> itemRectangle;
 	private Array<ItemDropperInfo> itemInfo;
@@ -37,6 +41,12 @@ public class ItemDropper {
 		setUpTexture();
 		setUpArray();
 		setUpDropRate();
+		pickUpSound = new Sound[5];
+		pickUpSound[FULLMAG_TYPE] = Gdx.audio.newSound(Gdx.files.internal("Sound/FullMag.wav"));
+		pickUpSound[HEALTHPACK_TYPE] = Gdx.audio.newSound(Gdx.files.internal("Sound/HealthPack.wav"));
+		pickUpSound[ONEMAG_TYPE] = Gdx.audio.newSound(Gdx.files.internal("Sound/OneMag.wav"));
+		pickUpSound[METAL_TYPE] = Gdx.audio.newSound(Gdx.files.internal("Sound/Metal.wav"));
+		pickUpSound[WOOD_TYPE] = Gdx.audio.newSound(Gdx.files.internal("Sound/Wood.wav"));
 	}
 	
 	public void update(){
@@ -48,6 +58,14 @@ public class ItemDropper {
 			
 			if(rectangle.overlaps(mainGameWorld.getPlayer().getRectangle())){
 				if(itemAction(info.type)){
+					switch(info.type){
+						case FULLMAG_TYPE : pickUpSound[FULLMAG_TYPE].play(pickUpSoundVolune[FULLMAG_TYPE]); break;
+						case HEALTHPACK_TYPE : pickUpSound[HEALTHPACK_TYPE].play(pickUpSoundVolune[HEALTHPACK_TYPE]); break;
+						case ONEMAG_TYPE : pickUpSound[ONEMAG_TYPE].play(pickUpSoundVolune[ONEMAG_TYPE]); break;
+						case METAL_TYPE : pickUpSound[METAL_TYPE].play(pickUpSoundVolune[METAL_TYPE]); break;
+						case WOOD_TYPE : pickUpSound[WOOD_TYPE].play(pickUpSoundVolune[WOOD_TYPE]); break;
+						default : break;
+					}
 					iterInfo.remove();
 					iterRectangle.remove();
 				}
