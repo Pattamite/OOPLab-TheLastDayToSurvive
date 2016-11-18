@@ -8,12 +8,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class MainGameTracker {
 	public static final int PHASE_PREP_TYPE = 0;
 	public static final int PHASE_COMBAT_TYPE = 1;
-	public static final long PAHSE_PREP_TIME = 60000;
+	public static final long PHASE_PREP_TIME = 60000;
 	
 	private MainGameWorld mainGameWorld;
 	
 	private int currentPhase;
 	private int scoreType[] = new int[]{100, 200};
+	
 	private int score = 0;
 	private int remainEnemy = 0;
 	private int currentWave = 0;
@@ -22,7 +23,7 @@ public class MainGameTracker {
 	private long lastSpawnTime = 0;
 	private float positionOffset = 100f;
 	
-	private int dumbPerWave = 12;
+	private int dumbPerWave = 15;
 	private int smartPerWave = 3;
 	private int dumbNum = 0;
 	private int smartNum = 0;
@@ -56,7 +57,7 @@ public class MainGameTracker {
 	
 	
 	public void update(){
-		if(currentPhase == PHASE_PREP_TYPE && (TimeUtils.millis() - prepStratedTime) > PAHSE_PREP_TIME){
+		if(currentPhase == PHASE_PREP_TYPE && (TimeUtils.millis() - prepStratedTime) > PHASE_PREP_TIME){
 			combatActivate();
 		}
 		else if(currentPhase == PHASE_COMBAT_TYPE){
@@ -115,7 +116,7 @@ public class MainGameTracker {
 	}
 	
 	public long getPrepTime(){
-		return ((PAHSE_PREP_TIME - (TimeUtils.millis() - prepStratedTime)) / 1000) + 1;
+		return ((PHASE_PREP_TIME - (TimeUtils.millis() - prepStratedTime)) / 1000) + 1;
 	}
 	
 	public int getRemainEnemy(){
