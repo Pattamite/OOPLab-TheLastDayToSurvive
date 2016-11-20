@@ -123,7 +123,7 @@ public class Player {
 	public void getHit(int value){
 		playerCurrentHealth -= value;
 		getHitSound.play(getHitSoundVolume);
-		if(playerCurrentHealth < 0){
+		if(playerCurrentHealth <= 0){
 			playerCurrentHealth = 0;
 			mainGameWorld.gameOver();
 		}
